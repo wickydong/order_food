@@ -6,23 +6,27 @@ import MySQLdb
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/")   #首页
 def index():
     pass
 
-@app.route("/order")
+@app.route("/takeout")   #外卖
+def takeout():
+    pass
+
+@app.route("/order")   #订餐
 def order():
     pass
 
-@app.route("/reservation")
+@app.route("/reservation")  #订座
 def reservation():
     pass
 
-@app.route("/vip")
+@app.route("/vip")    #会员
 def vip():
     pass
 
-@app.route("/about")
+@app.route("/about")  #关于
 def about():
     pass
 
