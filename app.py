@@ -9,15 +9,20 @@ app = Flask(__name__)
 
 @app.route("/")   #首页
 def index():
-    pass
+    return render_template("index.html")
 
 @app.route("/takeout")   #外卖
 def takeout():
     pass
 
-@app.route("/order")   #订餐
+@app.route("/order")   #订餐页
 def order():
-    pass
+    return render_template("order.html")
+
+@app.route("/order_sure",methods=["POST"])  #订餐确认页
+def order_sure():
+    order_list = request.form.getlist("dishes")
+    return render_template("order_sure.html",order_list=order_list)
 
 @app.route("/reservation",methods=["POST","GET"])  #订座
 def reservation():
@@ -29,11 +34,8 @@ def reservation():
         come_people = request.form.get("come_people",default="")
         room_type = request.form.get("room_people",default="")
         other = request.form.get("other")
-        print phone_number
-        print other
-        print come_date
         return phone_number
-    return render_template("reservation.html")    
+    return render_template("reservation.html")
 @app.route("/vip")    #会员
 def vip():
     pass
