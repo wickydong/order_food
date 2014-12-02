@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>订座</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    </head>
+    <body>
+        <form action="/reservation_sure" method="post">
+          <input style="display:none" type="text" name="user_name" value="{{user_name}}"/>
+          <input style="display:none" type="text" name="phone" value="{{phone}}"/>
+          <input style="display:none" type="text" name="come_datetime" value="{{come_datetime}}"/>
+          <input style="display:none" type="text" name="come_people" value="{{come_people}}"/>
+          <input style="display:none" type="text" name="other" value="{{other}}"/>
+          <p>选座<input type="text" name="position" /></p>
+          <input type="submit" value="确认提交">
+        </form>
+    </body>
+</html>
