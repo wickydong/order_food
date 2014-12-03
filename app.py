@@ -3,13 +3,17 @@
 #! author: wickydong
 
 import sys
-from flask import Flask,url_for,render_template,request
+from flask import Flask,render_template,request,redirect,url_for
 import makesql
 #con =MySQLdb.connect(host="localhost",user="root",passwd="root",db="order_food")
 #cur = con.cursor()
 reload(sys)
 sys.setdefaultencoding("utf-8")
 app = Flask(__name__)
+
+# ---------------------------------------- #
+                #后台管理#
+# ---------------------------------------- #
 
 @app.route("/")   #首页
 def index():
@@ -68,6 +72,35 @@ def vip():
 @app.route("/about")  #关于
 def about():
     pass
+
+# ---------------------------------------- #
+                #后台管理#
+# ---------------------------------------- #
+
+@app.route("/admin")
+def admin():
+    return render_template("admin.html")
+
+@app.route("/review_seat")   #后台显示订座信息
+def review_seat():
+    review_seat = makesql.select_seat()
+    if len(review_seat) != 0:
+        review_list = []
+        for i in review_seat:
+            phone = str(i[0])
+            times = i[2].strftime("%Y-%m-%d %H:%M:%S")
+            review_list.append((phone,i[1],times,i[3],i[4],i[5]))
+        return render_template("review_seat.html",review_list=review_list)
+    return "none"
+
+@app.route("/review_over")   #审核通过座位
+def review_over():
+    phone = request.args.get("phone")
+    review_back = makesql.seat_allow(phone)
+    print review_back
+    return redirect(url_for("review_seat"))
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",debug=True)

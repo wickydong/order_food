@@ -17,8 +17,8 @@ def insert_seat(position_message):
         return "OK"
     except Exception,e:
         return e
-    make.cur.close()
-    make.con.close()
+    make.close()
+    con.close()
 
 def insert_user(user_message):
     print user_message
@@ -29,6 +29,31 @@ def insert_user(user_message):
         return "OK"
     except Exception,e:
         return e
-        print
-    make.cur.close()
-    make.con.close()
+    make.close()
+    con.close()
+
+def select_seat():
+    make,con = makesql()
+    try:
+        make.execute("select phone,user_name,come_date,come_people,position,\
+                other from reservation where review='pending'")
+        fetchall = make.fetchall()
+        return fetchall
+    except Exception,e:
+        return e
+    make.close()
+    con.close()
+
+
+def seat_allow(phone):
+    make,con = makesql()
+    try:
+        result = make.execute("update reservation set review='allow' where \
+                phone=%s",phone)
+        con.commit()
+        return result
+    except Exception,e:
+        return e
+    make.close()
+    con.close()
+

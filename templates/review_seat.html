@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <title>Index Page</title>
+</head>
+
+<body>
+  <table>
+    <tr>
+      <th>手机号</th>
+      <th>姓名</th>
+      <th>到店日期</th>
+      <th>人数</th>
+      <th>位置</th>
+      <th>其他</th>
+    </tr>
+{% for a in review_list %}
+    <form action="/review_over" method="get">
+    <tr>
+      <td><input value={{a[0]}}  name="phone" readonly="readonly" style="border:0px;" /></td>
+      <td><input value={{a[1]}} readonly="readonly" style="border:0px;" /></td>
+      <td><input value={{a[2]}} readonly="readonly" style="border:0px;" /></td>
+      <td><input value={{a[3]}} readonly="readonly" style="border:0px;" /></td>
+      <td><input value={{a[4]}} readonly="readonly" style="border:0px;" /></td>
+      {% if a[5] == "" %}
+      <td><input value="None" style="border:0px;" readonly="readonly" /></td>
+      {% else %}
+      <td><input value={{a[5]}} style="border:0px;" readonly="readonly" /></td>
+      {% endif %}
+      <td><input type="submit" value="审核通过" /></td>
+
+    </tr>
+  </form>
+{% endfor %}
+  </table>
+</body>
+
+</html>
+
+
