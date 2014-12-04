@@ -89,6 +89,7 @@ def review_seat():
         for i in review_seat:
             phone = str(i[0])
             times = i[2].strftime("%Y-%m-%d %H:%M:%S")
+            print times
             review_list.append((phone,i[1],times,i[3],i[4],i[5]))
         return render_template("review_seat.html",review_list=review_list)
     return "none"
