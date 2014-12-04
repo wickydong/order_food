@@ -1,1 +1,35 @@
-ul {list-style-type:none}
+.container {
+  padding:0px 15px;
+  margin: 0px auto;
+}
+
+.list-meun {
+  list-style-type:none;
+}
+.list-meun li {
+  text-align:center;
+  padding-top:5px;
+  padding-bottom:5px;
+}
+.list-meun li a {
+  text-decoration:none;
+  color:#777;
+}
+.list-meun li a:hover {
+  animation:myfirst 1s;
+  -webkit-animation:myfirst 1s;
+}
+.list-meun li b {
+  color:#777;
+}
+@keyframes myfirst
+{
+from {margin:0px 0px;}
+to {margin:0px 20px;}
+}
+
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+from {margin:0px 0px;}
+to {margin:0px 20px;}
+}

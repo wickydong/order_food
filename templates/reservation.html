@@ -2,15 +2,42 @@
     <head>
         <title>订座</title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="/static/reservation.css">
     </head>
     <body>
-        <form action="/reservation" method="post">
-            <p>联系人<input type="text" name="user_name"/></p>
-            <p>手机<input type="text" name="phone_number"/></p>
-            <p>到店日期<input type="text" name="come_datetime"/></p>
-            <p>到店人数<input type="text" name="come_people"/></p>
-            <p>备注<input type="text" name="other"/></p>
-            <input type="submit" value="确认提交">
+        <form action="/reservation" method="post" class="form form-reservation">
+            <div class="form-div">
+                <label>联系人</label>
+                <input type="text" name="user_name"/>
+            </div>
+            <div class="form-div">
+                <label>手机</label>
+                <input type="text" name="phone_number"/>
+            </div>
+            <div class="form-div">
+                <label>到店日期</label>
+                <input type="text" name="come_datetime"/>
+            </div>
+            <div class="form-div">
+                <label>到店人数</label>
+                <select name="come_people">
+                    <option value="1">一个人的宁静</option>
+                    <option value="2">两个人的浪漫</option>
+                    <option value="3">三个人的闲聊</option>
+                    <option value="4">四个人的聚会</option>
+                    <option value="5">五个人的死党</option>
+                    <option value="0">公司订餐的干活？</option>
+                </select>
+                <input text="text" name="come_people" style="display:none;" placeholder="自己填个数吧">
+            </div>
+            <div class="form-div">
+                <label>备注</label>
+                <input type="text" name="other" placeholder="想跟店主交代点啥？"/>
+            </div>
+            <div class="form-div">
+                <label></label>
+                <button type="submit">确认提交</button>
+            </div>
         </form>
     </body>
 </html>

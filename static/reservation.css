@@ -1,0 +1,22 @@
+.form {
+  border:1px solid #ccc;
+  border-radius:5px;
+  width:350px;
+  padding:5px 10px;
+}
+.form-reservation {
+}
+.form-div {
+  margin:5px auto;
+}
+.form-div label {
+  display:inline-block;
+  width:30%;
+  text-align:right;
+}
+.form-div input, select {
+  display:inline-block;
+  border:2px solid #4c556e;
+  border-radius:5px;
+  width:65%;
+}
