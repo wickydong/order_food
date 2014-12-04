@@ -19,15 +19,15 @@
 {% for a in review_list %}
     <form action="/review_over" method="get">
     <tr>
-      <td><input value={{a[0]}}  name="phone" readonly="readonly" style="border:0px;" /></td>
-      <td><input value={{a[1]}} readonly="readonly" style="border:0px;" /></td>
-      <td><input value={{a[2]}} readonly="readonly" style="border:0px;" /></td>
-      <td><input value={{a[3]}} readonly="readonly" style="border:0px;" /></td>
-      <td><input value={{a[4]}} readonly="readonly" style="border:0px;" /></td>
+      <td><input value="{{a[0]}}"  name="phone" readonly="readonly" style="border:0px;" /></td>
+      <td><input value="{{a[1]}}" readonly="readonly" style="border:0px;" /></td>
+      <td><input value="{{a[2]}}" readonly="readonly" style="border:0px;" /></td>
+      <td><input value="{{a[3]}}" readonly="readonly" style="border:0px;" /></td>
+      <td><input value="{{a[4]}}" readonly="readonly" style="border:0px;" /></td>
       {% if a[5] == "" %}
       <td><input value="None" style="border:0px;" readonly="readonly" /></td>
       {% else %}
-      <td><input value={{a[5]}} style="border:0px;" readonly="readonly" /></td>
+      <td><input value="{{a[5]}}" style="border:0px;" readonly="readonly" /></td>
       {% endif %}
       <td><input type="submit" value="审核通过" /></td>
 
