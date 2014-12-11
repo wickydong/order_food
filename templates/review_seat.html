@@ -16,12 +16,13 @@
       <th>位置</th>
       <th>其他</th>
     </tr>
+{% if  review_list %}
 {% for a in review_list %}
     <form action="/review_over" method="get">
     <tr>
       <td><input value="{{a[0]}}"  name="phone" readonly="readonly" style="border:0px;" /></td>
       <td><input value="{{a[1]}}" readonly="readonly" style="border:0px;" /></td>
-      <td><input value="{{a[2]}}" readonly="readonly" style="border:0px;" /></td>
+      <td><input value="{{a[2]}}" name="date" readonly="readonly" style="border:0px;" /></td>
       <td><input value="{{a[3]}}" readonly="readonly" style="border:0px;" /></td>
       <td><input value="{{a[4]}}" readonly="readonly" style="border:0px;" /></td>
       {% if a[5] == "" %}
@@ -34,6 +35,42 @@
     </tr>
   </form>
 {% endfor %}
+{% else %}
+<p>目前无客户订座</p>
+{% endif %}
+    </br>
+    </br>
+
+  <table>
+    <tr>
+      <th>手机号</th>
+      <th>姓名</th>
+      <th>到店日期</th>
+      <th>人数</th>
+      <th>位置</th>
+      <th>其他</th>
+    </tr>
+{% if allow_list %}
+{% for i in allow_list %}
+    <form>
+    <tr>
+      <td><input value="{{i[0]}}"  name="phone" readonly="readonly" style="border:0px;" /></td>
+      <td><input value="{{i[1]}}" readonly="readonly" style="border:0px;" /></td>
+      <td><input value="{{i[2]}}" readonly="readonly" style="border:0px;" /></td>
+      <td><input value="{{i[3]}}" readonly="readonly" style="border:0px;" /></td>
+      <td><input value="{{i[4]}}" readonly="readonly" style="border:0px;" /></td>
+      {% if i[5] == "" %}
+      <td><input value="None" style="border:0px;" readonly="readonly" /></td>
+      {% else %}
+      <td><input value="{{i[5]}}" style="border:0px;" readonly="readonly" /></td>
+      {% endif %}
+
+    </tr>
+  </form>
+{% endfor %}
+{% else %}
+<p>今天还未审核过订座信息</p>
+{% endif %}
   </table>
 </body>
 
