@@ -4,7 +4,7 @@
 
 import sys
 from flask import Flask,render_template,request,redirect,url_for
-import makesql
+#import makesql
 #con =MySQLdb.connect(host="localhost",user="root",passwd="root",db="order_food")
 #cur = con.cursor()
 reload(sys)
