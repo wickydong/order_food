@@ -5,8 +5,7 @@
 import sys
 from flask import Flask,render_template,request,redirect,url_for
 import makesql
-#con =MySQLdb.connect(host="localhost",user="root",passwd="root",db="order_food")
-#cur = con.cursor()
+
 reload(sys)
 sys.setdefaultencoding("utf-8")
 app = Flask(__name__)
@@ -15,8 +14,10 @@ app = Flask(__name__)
 #               #用戶管理#                 #
 # ---------------------------------------- #
 
-@app.route("/")   #首页
+@app.route("/", methods=['GET', 'POST'])   #首页
 def index():
+    body = request.data
+    print body
     return render_template("index.html")
 
 @app.route("/takeout")   #外卖
@@ -46,7 +47,7 @@ def reservation():
 
 @app.route("/reservation_sure",methods=["POST","GET"]) #确认订座
 def reservation_sure():
-    if request.method == "POST":
+    if request.method == "POST":              #此处需要加入接收用户wechatID进行判断或写入
         phone = request.form.get("phone")
         user_name = request.form.get("user_name")
         come_date = request.form.get("come_date")
@@ -55,21 +56,20 @@ def reservation_sure():
         other = request.form.get("other")
         position = request.form.get("position")
         vip = "NO"
-        seat_message = [phone,user_name,come_date,come_time,int(come_people),position,\
-                other]
+        seat_message = [phone,user_name,come_date,come_time,int(come_people),position, other]
         user_message = [phone,user_name,vip]
-        print come_time
         seat_insert = makesql.insert_seat(seat_message)
         user_insert =makesql.insert_user(user_message)
         if seat_insert == "OK" and user_insert == "OK":
             return "ok"
-        print seat_insert,user_insert
         return "wrong"
     return "Please Use Post"
 
-@app.route("/vip")    #会员
+@app.route("/vip",methods=["GET","POST"])    #会员
 def vip():
-    pass
+    wechat_msg = request.data
+    print wechat_msg
+    return "ok"
 
 @app.route("/about")  #关于
 def about():
@@ -89,7 +89,6 @@ def review_seat():
     review_allowseat = makesql.select_allowseat()
     review_list = []
     allow_list = []
-    print review_seat
     if len(review_seat) != 0:
         for i in review_seat:
             phone = str(i[0])
@@ -108,12 +107,20 @@ def review_over():
     phone = request.args.get("phone")
     date = request.args.get("date")
     review_back = makesql.seat_allow(phone,date)
-    print review_back
     return redirect(url_for("review_seat"))
 
 @app.route("/review_change")  #审核修改座位
 def review_change():
     pass
 
+@app.route("/wchat_sure",methods=["GET","POST"])  #WECHAT开发者验证
+def wechat_sure():
+    signature = request.args.get("signature")
+    timestamp = request.args.get("timestamp")
+    nonce = request.args.get("nonce")
+    echostr = request.args.get("echostr")
+    body = request.data
+    print body
+    return "OK"
 if __name__ == "__main__":
     app.run(host="0.0.0.0",debug=True)
