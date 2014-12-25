@@ -14,12 +14,21 @@
             <p class="form-sub-content">预定成功后，我们会以微信或电话通知您</p>
             <div class="form-sub-title">联系人信息</div>
             <div class="form-div">
+             <input style="display:none" type="text" name="open_id" value="{{open_id}}"/>
                 <label>联系人</label>
+                {%if phone and user_name%}
+                <input type="text" name="user_name" value="{{user_name}}"/>
+                {%else%}
                 <input type="text" name="user_name" placeholder="您的姓名或者昵称"/>
+                {%endif%}
             </div>
             <div class="form-div">
                 <label>手机</label>
+                {%if phone and user_name%}
+                <input type="text" name="phone_number" value="{{phone}}"/>
+                {%else%}
                 <input type="text" name="phone_number" placeholder="您的手机号"/>
+                {%endif%}
             </div>
             <div class="form-sub-title">预定信息</div>
             <div class="form-div">

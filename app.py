@@ -5,20 +5,21 @@
 import sys
 from flask import Flask,render_template,request,redirect,url_for
 import makesql
-
+import requests
+import json
 reload(sys)
 sys.setdefaultencoding("utf-8")
 app = Flask(__name__)
 
+reservation_data = {"appid": "wx51ae0018262ad036",
+              "redirect_uri": "http%3a%2f%2fyoogane.sunzhongwei.com%2freservation",
+              "response_type": "code",
+              "scope": "snsapi_base#wechat_redirect"
+             }
+
 # ---------------------------------------- #
 #               #用戶管理#                 #
 # ---------------------------------------- #
-
-@app.route("/", methods=['GET', 'POST'])   #首页
-def index():
-    body = request.data
-    print body
-    return render_template("index.html")
 
 @app.route("/takeout")   #外卖
 def takeout():
@@ -34,20 +35,28 @@ def order():
 @app.route("/reservation",methods=["POST","GET"])  #订座
 def reservation():
     if request.method == "POST":
+        open_id = request.form.get("open_id")
         phone = request.form.get("phone_number",default="")
         user_name = request.form.get("user_name",default="")
         come_date = request.form.get("come_date",default="")
         come_time = request.form.get("come_time",default="")
         come_people = request.form.get("come_people",default="")
         other = request.form.get("other")
-        return render_template("choice_seat.html",\
+        return render_template("choice_seat.html",open_id=open_id,\
                phone=phone,user_name=user_name,come_date=come_date,\
                come_time=come_time,come_people=come_people,other=other)
-    return render_template("reservation.html")
+    open_id = request.args.get("open_id")
+    select_user = makesql.select_user(open_id)
+    if len(select_user) == 0:
+        return render_template("reservation.html",open_id=open_id)
+    phone = str(select_user[0][2])
+    user_name = str(select_user[0][3])
+    return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name)
 
 @app.route("/reservation_sure",methods=["POST","GET"]) #确认订座
 def reservation_sure():
     if request.method == "POST":              #此处需要加入接收用户wechatID进行判断或写入
+        open_id = request.form.get("open_id")
         phone = request.form.get("phone")
         user_name = request.form.get("user_name")
         come_date = request.form.get("come_date")
@@ -56,15 +65,23 @@ def reservation_sure():
         other = request.form.get("other")
         position = request.form.get("position")
         vip = "NO"
-        seat_message = [phone,user_name,come_date,come_time,int(come_people),position, other]
-        user_message = [phone,user_name,vip]
+        seat_message = [open_id,phone,user_name,come_date,come_time,int(come_people),position, other]
+        user_message = [open_id,phone,user_name,vip]
         seat_insert = makesql.insert_seat(seat_message)
         user_insert =makesql.insert_user(user_message)
         if seat_insert == "OK" and user_insert == "OK":
-            return "ok"
+            global access_token
+            put_msg = {"touser": open_id,
+                       "msgtype": "text",
+                       "text": {
+                                "content":"Your reservation is ok,Please wait a moment"
+                               }
+                      }
+            put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
+            print put.text
+            return "ok" 
         return "wrong"
     return "Please Use Post"
-
 @app.route("/vip",methods=["GET","POST"])    #会员
 def vip():
     wechat_msg = request.data
@@ -113,14 +130,46 @@ def review_over():
 def review_change():
     pass
 
+
+# ---------------------------------------- #
+#               #WECHAT相关#               #
+# ---------------------------------------- #
+
+
 @app.route("/wchat_sure",methods=["GET","POST"])  #WECHAT开发者验证
 def wechat_sure():
     signature = request.args.get("signature")
     timestamp = request.args.get("timestamp")
     nonce = request.args.get("nonce")
     echostr = request.args.get("echostr")
-    body = request.data
-    print body
-    return "OK"
+    #body = request.data
+    code = request.args.get("code")
+    state = request.args.get("state")
+    action = request.args.get("action")
+    if echostr:
+        return echostr
+    if code:
+        payload = {"appid": "wx51ae0018262ad036",
+                   "secret": "de8a8682f69e79cd20ceea978831eb7b",
+                   "code": code,
+                   "grant_type": "authorization_code"}
+        get_token = requests.get("https://api.weixin.qq.com/sns/oauth2/access_token",params=payload)
+        open_id =  str(json.loads(get_token.text)["openid"])
+        #print open_id
+        #print type(action)
+        if str(action) == "reservation":
+            return redirect("http://yoogane.sunzhongwei.com/reservation?open_id=%s" % open_id)
+    else:
+        print request.data
+        return request.data
+
+access_token = ""
+@app.route("/access_token")
+def access_token():
+    global access_token
+    access_token = request.args.get("access_token")
+    return "ok"
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0",debug=True)
