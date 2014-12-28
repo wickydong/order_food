@@ -1,11 +1,12 @@
 body {
+  font-size:20px;
   background: #eee;
 }
 
 /* layout */
 .container {
   margin:5px auto;
-  max-width: 640px;
+  width: 90%;
 }
 .fix-top-right {
   position: fixed;
@@ -25,7 +26,7 @@ body {
 }
 .form-sub-content {
   background: #fff;
-  padding: 5px;
+  padding: 10px;
   min-height: 30px;
 }
 .form-div {
@@ -55,6 +56,7 @@ body {
 .btn {
   border: 0px;
   border-radius: 5px;
+  font-size: 20px;
   padding:2px 5px;
   min-width: 20px;
   min-height: 10px;
@@ -62,8 +64,33 @@ body {
 }
 .btn-full {
   width: 100%;
+  height:100px;
+  font-size: 40px;
+  margin-top: 10px;
 }
 .btn-red {
   background: #BF0A10;
   color: #fff;
+}
+.zuowei-list {
+  border: 2px solid #777;
+  padding:15px;
+  overflow: hidden;
+}
+.zuowei-list li {
+  border: 5px solid #228B22;
+  border-radius: 5px;
+  background: #BF0A10;
+  list-style: none;
+  width:30%;
+  height:100px;
+  text-align:center;
+  line-height: 100px;
+  margin: 5px;
+  float: left;
+}
+.zuowei-list li a {
+  font-size: 32px;
+  color: #fff;
+  text-decoration: none;
 }
