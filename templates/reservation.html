@@ -4,6 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" type="text/css" href="/static/style.css">
+        <script type="text/javascript" src="/static/jquery-2.1.1.min.js"></script>
     </head>
     <body>
         <div class="container">
@@ -38,8 +39,8 @@
             </div>
             <div class="form-div">
                 <label>到店时间</label>
-                <input class="form-input-half" type="text" name="come_datetime" value="12点"/>
-                <input class="form-input-half" type="text" name="come_datetime" value="00"/>
+                <input class="form-input-half" type="text" name="come_datetime" value="12点" id="time_hours"/>
+                <input class="form-input-half" type="text" name="come_datetime" value="00" id="time_minute"/>
             </div>
             <div class="form-div">
                 <label>到店人数</label>
