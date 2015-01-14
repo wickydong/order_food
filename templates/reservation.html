@@ -3,47 +3,52 @@
         <title>订座</title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css">
-        <script type="text/javascript" src="/static/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/ratchet/css/ratchet.min.css">
+        <!--<link rel="stylesheet" type="text/css" href="/static/ratchet/css/ratchet-theme-android.min.css">-->
+        <!--<link rel="stylesheet" type="text/css" href="/static/ratchet/css/ratchet-theme-ios.min.css">-->
+        <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="/static/ratchet/js/ratchet.min.js"></script>
     </head>
     <body>
-        <div class="container">
-        <div class="fix-top-right">
-            <button class="btn btn-red">返回上级</button>
+        <header class="bar bar-nav">
+            <h1 class="title">订座</h1>
+        </header>
+        <div style="margin-top: 50px;">
+            <h3>预定说明</h3>
+            <p class="well">
+                预定成功后，我们会以微信或电话通知您
+            </p>
         </div>
-        <form action="/reservation" method="post" class="form">
-            <div class="form-sub-title">预定说明</div>
-            <p class="form-sub-content">预定成功后，我们会以微信或电话通知您</p>
-            <div class="form-sub-title">联系人信息</div>
-            <div class="form-div">
-             <input style="display:none" type="text" name="open_id" value="{{open_id}}"/>
+        <form action="/reservation" method="post" >
+            <input style="display:none" type="text" name="open_id" value="{{open_id}}"/>
+            <h3>联系人信息</h3>
+            <div class="input-row">
                 <label>联系人</label>
                 {%if phone and user_name%}
-                <input type="text" name="user_name" value="{{user_name}}"/>
+                <input type="text" name="user_name" placeholder="联系人（您的姓名或昵称）" value="{{user_name}}">
                 {%else%}
-                <input type="text" name="user_name" placeholder="您的姓名或者昵称"/>
+                <input type="text" name="user_name" placeholder="联系人（您的姓名或昵称）">
                 {%endif%}
             </div>
-            <div class="form-div">
+            <div class="input-row">
                 <label>手机</label>
                 {%if phone and user_name%}
-                <input type="text" name="phone_number" value="{{phone}}"/>
+                <input type="text" name="phone_number" placeholder="您的手机号" value="{{phone}}">
                 {%else%}
-                <input type="text" name="phone_number" placeholder="您的手机号"/>
+                <input type="text" name="phone_number" placeholder="您的手机号">
                 {%endif%}
             </div>
-            <div class="form-sub-title">预定信息</div>
-            <div class="form-div">
+            <h3>预定信息</h3>
+            <div class="input-row">
                 <label>到店日期</label>
                 <input type="text" name="come_datetime" value="今天"/>
             </div>
-            <div class="form-div">
+            <div class="input-row">
                 <label>到店时间</label>
                 <input class="form-input-half" type="text" name="come_datetime" value="12点" id="time_hours"/>
                 <input class="form-input-half" type="text" name="come_datetime" value="00" id="time_minute"/>
             </div>
-            <div class="form-div">
+            <div class="input-row">
                 <label>到店人数</label>
                 <select name="come_people">
                     <option value="1">一个人的宁静</option>
@@ -55,7 +60,7 @@
                 </select>
                 <input text="text" name="come_people" style="display:none;" placeholder="自己填个数吧">
             </div>
-            <div class="form-div">
+            <div class="input-row">
                 <label>房间类型</label>
                 <select name="come_people">
                     <option value="1">小房</option>
@@ -64,12 +69,11 @@
                     <option value="4">散台</option>
                 </select>
             </div>
-            <div class="form-div">
+            <div class="input-row">
                 <label>备注</label>
-                <input type="text" name="other" placeholder="想跟店主交代点啥？"/>
             </div>
-            <button class="btn btn-full btn-red" type="submit">确认提交</button>
+            <textarea rows="5" name="other"></textarea>
+            <button class="btn btn-positive btn-block" type="submit">确认提交</button>
         </form>
-        </div>
     </body>
 </html>
