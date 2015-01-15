@@ -10,69 +10,71 @@
         <script type="text/javascript" src="/static/ratchet/js/ratchet.min.js"></script>
     </head>
     <body>
-        <header class="bar bar-nav">
-            <h1 class="title">订座</h1>
+        <header class="bar bar-nav" style="height: 70px;">
+            <button class="btn pull-left" id="date_button_1" style="width: 20%;height: 50px;">今天</button>
+            <button class="btn pull-left" id="date_button_2" style="width: 20%;height: 50px;">明天</button>
+            <button class="btn pull-left" id="date_button_3" style="width: 20%;height: 50px;">后天</button>
+            <a href="#explain"><button class="btn pull-right" style="width: 100px;height: 50px;">说明</button></a>
+            <div id="explain" class="modal">
+                <header class="bar bar-nav">
+                    <a class="icon icon-close pull-right" href="#explain"></a>
+                    <h1 class="title">说明</h1>
+                </header>
+                <div class="content">
+                    <p class="content-padded">预定说明</p>
+                </div>
+            </div>
         </header>
-        <div style="margin-top: 50px;">
-            <h3>预定说明</h3>
-            <p class="well">
-                预定成功后，我们会以微信或电话通知您
-            </p>
+        <div style=" margin-top: 75px;">
+            <form action="/reservation" method="post" >
+                <input style="display:none" type="text" name="open_id" value="{{open_id}}"/>
+                <input style="display:none" type="text" name="date" id="date"/>
+                <input style="display:none" type="text" name="time" id="time_hour"/>
+                <input style="display:none" type="text" name="time" id="time_minute"/>
+                <div style="margin: 5px auto;width: 240px;">
+                    <button type="button" class="btn btn-negative btn-outlined" id="hour_button" style="width: 100px;height: 50px;font-size: 20px;">时</button>
+                    <button type="button" class="btn btn-link" style="font-size: 35px;font-weight: lighter;color: #f00;">:</button>
+                    <button type="button" class="btn btn-negative btn-outlined" id="minute_button" style="width: 100px;height: 50px;font-size: 20px;">分</button>
+                </div>
+                {%if phone and user_name%}
+                <input type="text" name="user_name" placeholder="姓名" value="{{user_name}}">
+                {%else%}
+                <input type="text" name="user_name" placeholder="姓名">
+                {%endif%}
+                {%if phone and user_name%}
+                <input type="text" name="phone_number" placeholder="手机号" value="{{phone}}">
+                {%else%}
+                <input type="text" name="phone_number" placeholder="手机号">
+                {%endif%}
+                <input type="text" name="come_people" placeholder="到店人数"/>
+                <input type="text" name="room_type" placeholder="房间类型"/>
+                <input type="text" name="other" placeholder="备注(可不填)"/>
+                <!--<textarea rows="5" name="other"></textarea>-->
+                <button class="btn btn-positive btn-block" type="submit">确认提交</button>
+            </form>
         </div>
-        <form action="/reservation" method="post" >
-            <input style="display:none" type="text" name="open_id" value="{{open_id}}"/>
-            <h3>联系人信息</h3>
-            <div class="input-row">
-                <label>联系人</label>
-                {%if phone and user_name%}
-                <input type="text" name="user_name" placeholder="联系人（您的姓名或昵称）" value="{{user_name}}">
-                {%else%}
-                <input type="text" name="user_name" placeholder="联系人（您的姓名或昵称）">
-                {%endif%}
-            </div>
-            <div class="input-row">
-                <label>手机</label>
-                {%if phone and user_name%}
-                <input type="text" name="phone_number" placeholder="您的手机号" value="{{phone}}">
-                {%else%}
-                <input type="text" name="phone_number" placeholder="您的手机号">
-                {%endif%}
-            </div>
-            <h3>预定信息</h3>
-            <div class="input-row">
-                <label>到店日期</label>
-                <input type="text" name="come_datetime"/>
-            </div>
-            <div class="input-row">
-                <label>到店时间</label>
-                <input type="text" name="come_datetime" id="time_hours"/>
-            </div>
-            <div class="input-row">
-                <label>到店人数</label>
-                <select name="come_people">
-                    <option value="1">一个人的宁静</option>
-                    <option value="2">两个人的浪漫</option>
-                    <option value="3">三个人的闲聊</option>
-                    <option value="4">四个人的聚会</option>
-                    <option value="5">五个人的死党</option>
-                    <option value="0">公司订餐的干活？</option>
-                </select>
-                <input text="text" name="come_people" style="display:none;" placeholder="自己填个数吧">
-            </div>
-            <div class="input-row">
-                <label>房间类型</label>
-                <select name="come_people">
-                    <option value="1">小房</option>
-                    <option value="2">大房</option>
-                    <option value="3">中房</option>
-                    <option value="4">散台</option>
-                </select>
-            </div>
-            <div class="input-row">
-                <label>备注</label>
-            </div>
-            <textarea rows="5" name="other"></textarea>
-            <button class="btn btn-positive btn-block" type="submit">确认提交</button>
-        </form>
+        <script type="text/javascript">
+            <!--选择日期-->
+            var dateTime = new Date();
+            $("#date_button_1").click(function(){
+                var dateVal = dateTime.getFullYear() + "-" + (dateTime.getMonth()+1) + "-" + dateTime.getDate();
+                $("#date").val(dateVal);
+            });
+            $("#date_button_2").click(function(){
+                var dateVal = dateTime.getFullYear() + "-" + (dateTime.getMonth()+1) + "-" + (dateTime.getDate()+1);
+                $("#date").val(dateVal);
+            });
+            $("#date_button_3").click(function(){
+                var dateVal = dateTime.getFullYear() + "-" + (dateTime.getMonth()+1) + "-" + (dateTime.getDate()+2);
+                $("#date").val(dateVal);
+            });
+            <!--选择时间-->
+            $("#hour_button").click(function() {
+                alert ("hour");
+            });
+            $("#minute_button").click(function(){
+                alert ("minute");
+            });
+        </script>
     </body>
 </html>
