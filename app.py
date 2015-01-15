@@ -23,7 +23,24 @@ reservation_data = {"appid": "wx51ae0018262ad036",
 
 @app.route("/takeout")   #外卖
 def takeout():
-    pass
+    if request.method == "POST":
+        open_id = request.form.get("open_id")
+        phone = request.form.get("phone_number",default="")
+        user_name = request.form.get("user_name",default="")
+        come_date = request.form.get("come_date",default="")
+        come_time = request.form.get("come_time",default="")
+        come_people = request.form.get("come_people",default="")
+        other = request.form.get("other")
+        return render_template("choice_seat.html",open_id=open_id,\
+               phone=phone,user_name=user_name,come_date=come_date,\
+               come_time=come_time,come_people=come_people,other=other)
+    open_id = request.args.get("open_id")
+    select_user = makesql.select_user(open_id)
+    if len(select_user) == 0:
+        return "您还没有成为会员"
+    phone = str(select_user[0][2])
+    user_name = str(select_user[0][3])
+    return str(open_id + " " + phone)
 
 @app.route("/order",methods=["GET","POST"])   #订餐页
 def order():
@@ -84,9 +101,24 @@ def reservation_sure():
     return "Please Use Post"
 @app.route("/vip",methods=["GET","POST"])    #会员
 def vip():
+    if request.method == "POST":
+        open_id = request.form.get("open_id")
+        phone = request.form.get("phone_number",default="")
+        user_name = request.form.get("user_name",default="")
+        come_date = request.form.get("come_date",default="")
+        come_time = request.form.get("come_time",default="")
+        come_people = request.form.get("come_people",default="")
+        other = request.form.get("other")
+        return render_template("choice_seat.html",open_id=open_id,\
+               phone=phone,user_name=user_name,come_date=come_date,\
+               come_time=come_time,come_people=come_people,other=other)
     open_id = request.args.get("open_id")
-    print open_id
-    return "ok"
+    select_user = makesql.select_user(open_id)
+    if len(select_user) == 0:
+        return "您还没有成为会员"
+    phone = str(select_user[0][2])
+    user_name = str(select_user[0][3])
+    return str(open_id + " " + phone)
 
 @app.route("/about")  #关于
 def about():
