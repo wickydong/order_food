@@ -84,8 +84,8 @@ def reservation_sure():
     return "Please Use Post"
 @app.route("/vip",methods=["GET","POST"])    #会员
 def vip():
-    wechat_msg = request.data
-    print wechat_msg
+    open_id = request.args.get("open_id")
+    print open_id
     return "ok"
 
 @app.route("/about")  #关于
@@ -155,10 +155,18 @@ def wechat_sure():
                    "grant_type": "authorization_code"}
         get_token = requests.get("https://api.weixin.qq.com/sns/oauth2/access_token",params=payload)
         open_id =  str(json.loads(get_token.text)["openid"])
-        #print open_id
+        print open_id
         #print type(action)
         if str(action) == "reservation":
             return redirect("http://yoogane.sunzhongwei.com/reservation?open_id=%s" % open_id)
+        if str(action) == "vip":
+            return redirect("http://yoogane.sunzhongwei.com/vip?open_id=%s" % open_id)
+        if str(action) == "takeout":
+            return redirect("http://yoogane.sunzhongwei.com/takeout?open_id=%s" % open_id)
+        if str(action) == "order":
+            return redirect("http://yoogane.sunzhongwei.com/order?open_id=%s" % open_id)
+        if str(action) == "about":
+            return redirect("http://yoogane.sunzhongwei.com/about?open_id=%s" % open_id)
     else:
         print request.data
         return request.data

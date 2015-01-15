@@ -12,5 +12,5 @@ while True:
     token_msg = {"access_token": access_token}
     request_order = requests.get("http://0.0.0.0:5000/access_token",params=token_msg)
     print time.strftime('%Y-%m-%d %H:%M',time.localtime(time.time()))
-    print request_order.text
+    print token_msg
     time.sleep(7100)
