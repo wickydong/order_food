@@ -16,7 +16,7 @@ def insert_seat(position_message):  #插入用户订座数据
     make,con = makesql()
     print position_message
     try:
-        make.execute("insert into reservation (open_id,phone,user_name,come_date,come_time,come_people,position,other) values (%s,%s,%s,%s,%s,%s,%s,%s)",position_message)
+        make.execute("insert into reservation (open_id,phone,user_name,come_date,come_time,come_people,other) values (%s,%s,%s,%s,%s,%s,%s)",position_message)
         con.commit()
         return "OK"
     except Exception,e:
