@@ -1,0 +1,7 @@
+.btn-big {
+    width:100px !important;
+}
+.btn-color-red {
+    border: 1px solid #f00 !important;
+    color: #f00 !important;
+}
