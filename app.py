@@ -184,13 +184,13 @@ def review_seat():
     if len(review_seat) != 0:
         for i in review_seat:
             phone = str(i[0])
-            times = i[2].strftime("%Y-%m-%d")
-            review_list.append((phone,i[1],times,i[3],i[4],i[5],i[6]))
+            times = str(i[2])
+            review_list.append((phone,i[1],times,i[3],i[4],i[5]))
     if len(review_allowseat) != 0:
         for i in review_allowseat:
             phone = str(i[0])
-            times = i[2].strftime("%Y-%m-%d")
-            allow_list.append((phone,i[1],times,i[3],i[4],i[5],i[6]))
+            times = str(i[2])
+            allow_list.append((phone,i[1],times,i[3],i[4],i[5]))
     return render_template("review_seat.html",review_list=review_list,\
                 allow_list=allow_list)
 
@@ -199,8 +199,7 @@ def review_over():
     phone = request.args.get("phone")
     date = request.args.get("date")
     review_back = makesql.seat_allow(phone,date)
-    return redirect(url_for("review_seat"))
-
+    return redirect("http://yoogane.sunzhongwei.com/review_seat")
 @app.route("/review_change")  #审核修改座位
 def review_change():
     pass
