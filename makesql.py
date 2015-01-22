@@ -38,7 +38,6 @@ def insert_user(user_message):   #插入用户信息数据
 
 def select_user(open_id):  #查询用户信息
     make,con = makesql()
-    print open_id
     try:
         make.execute("select * from user where open_id=%s",open_id)
         fetchall = make.fetchall()
