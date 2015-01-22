@@ -61,8 +61,11 @@ def reservation():
         other = request.form.get("other")
         user_status = request.form.get("user_status")
         vip = "NO"
+        print str(phone).isdigit()
+        print len(str(phone))
         if str(phone).isdigit() == True and len(str(phone)) == 11:
             seat_message = [open_id,phone,user_name,come_date,come_time,int(come_people), other]
+            print seat_message
             global access_token
             if user_status == "is":
                 seat_insert = makesql.insert_seat(seat_message)
@@ -98,12 +101,15 @@ def reservation():
             #return render_template("choice_seat.html",open_id=open_id,\
              #      phone=phone,user_name=user_name,come_date=come_date,\
               #     come_time=come_time,come_people=come_people,other=other)
+         
         select_user = makesql.select_user(open_id)
         if len(select_user) == 0:
+            print "hi,i'm here"
             return render_template("reservation.html",open_id=open_id,user_status="notis")
         phone = str(select_user[0][2])
         user_name = str(select_user[0][3])
         return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
+    #return render_template("reservation.html",open_id="sssssss",phone="15506458267",user_name="wicky",user_status="is")
     open_id = request.args.get("open_id")
     print open_id
     select_user = makesql.select_user(open_id)

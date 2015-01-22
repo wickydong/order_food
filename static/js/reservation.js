@@ -131,5 +131,6 @@ var varifty = function(post_data){
             post_data['other'] = null;
         }
         r_data['status'] = 'success';
+        return r_data;
     }
 }
