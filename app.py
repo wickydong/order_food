@@ -105,11 +105,11 @@ def reservation():
         user_name = str(select_user[0][3])
         return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
     open_id = request.args.get("open_id")
+    print open_id
     select_user = makesql.select_user(open_id)
     if len(select_user) == 0:
         return render_template("reservation.html",open_id=open_id,user_status="notis")
     phone = str(select_user[0][2])
-    print phone
     user_name = str(select_user[0][3])
     return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
 
@@ -230,7 +230,6 @@ def wechat_sure():
                    "grant_type": "authorization_code"}
         get_token = requests.get("https://api.weixin.qq.com/sns/oauth2/access_token",params=payload)
         open_id =  str(json.loads(get_token.text)["openid"])
-        print open_id
         #print type(action)
         if str(action) == "reservation":
             return redirect("http://yoogane.sunzhongwei.com/reservation?open_id=%s" % open_id)
