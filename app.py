@@ -98,10 +98,6 @@ def reservation():
                     print put.text
                     return "ok"
                 return "wrong"
-            #return render_template("choice_seat.html",open_id=open_id,\
-             #      phone=phone,user_name=user_name,come_date=come_date,\
-              #     come_time=come_time,come_people=come_people,other=other)
-         
         select_user = makesql.select_user(open_id)
         if len(select_user) == 0:
             print "hi,i'm here"
@@ -118,36 +114,6 @@ def reservation():
     phone = str(select_user[0][2])
     user_name = str(select_user[0][3])
     return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
-
-#@app.route("/reservation_sure",methods=["POST","GET"]) #确认订座
-#def reservation_sure():
-#    if request.method == "POST":              #此处需要加入接收用户wechatID进行判断或写入
-#        open_id = request.form.get("open_id")
-#        phone = request.form.get("phone")
-#        user_name = request.form.get("user_name")
-#        come_date = request.form.get("come_date")
-#        come_time = request.form.get("come_time")
-#        come_people = request.form.get("come_people")
-#        other = request.form.get("other")
-#        position = request.form.get("position")
-#        vip = "NO"
-#        seat_message = [open_id,phone,user_name,come_date,come_time,int(come_people),position, other]
-#        user_message = [open_id,phone,user_name,vip]
-#        seat_insert = makesql.insert_seat(seat_message)
-#        user_insert =makesql.insert_user(user_message)
-#        if seat_insert == "OK" and user_insert == "OK":
-#            global access_token
-#            put_msg = {"touser": open_id,
-#                       "msgtype": "text",
-#                       "text": {
-#                                "content":"Your reservation is ok,Please wait a moment"
-#                               }
-#                      }
-#            put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
-#            print put.text
-#            return "ok" 
-#        return "wrong"
-#    return "Please Use Post"
 
 @app.route("/vip",methods=["GET","POST"])    #会员
 def vip():
