@@ -19,21 +19,21 @@
 
             // user_status
             {% if user_status %}
-                postData['user_status'] = {{user_status}};
+                postData['user_status'] = {% print user_status %};
             {% else %}
                 postData['user_status'] = null;
             {% endif %}
 
             // user_name
             {% if user_name %}
-                postData['user_name'] = {{user_name}};
+                postData['user_name'] = {% print user_name %};
             {% else %}
                 postData['user_name'] = null;
             {% endif %}
 
             // phone
             {% if phone %}
-                postData['phone'] = {{phone}};
+                postData['phone'] = {% print phone %};
             {% else %}
                 postData['phone'] = null;
             {% endif %}
