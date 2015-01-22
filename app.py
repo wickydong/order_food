@@ -105,7 +105,7 @@ def reservation():
         user_name = str(select_user[0][3])
         return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
     open_id = request.args.get("open_id")
-    #print open_id
+    print open_id
     select_user = makesql.select_user(open_id)
     if len(select_user) == 0:
         return render_template("reservation.html",open_id=open_id,user_status="notis")
