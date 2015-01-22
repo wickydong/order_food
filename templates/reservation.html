@@ -12,28 +12,28 @@
 
             // open_id
             {% if open_id %}
-                postData['open_id'] = {% print open_id %};
+                postData['open_id'] = '{% print open_id %}';
             {% else %}
                 postData['open_id'] = null;
             {% endif %}
 
             // user_status
             {% if user_status %}
-                postData['user_status'] = {% print user_status %};
+                postData['user_status'] = '{% print user_status %}';
             {% else %}
                 postData['user_status'] = null;
             {% endif %}
 
             // user_name
             {% if user_name %}
-                postData['user_name'] = {% print user_name %};
+                postData['user_name'] = '{% print user_name %}';
             {% else %}
                 postData['user_name'] = null;
             {% endif %}
 
             // phone
             {% if phone %}
-                postData['phone'] = {% print phone %};
+                postData['phone'] = '{% print phone %}';
             {% else %}
                 postData['phone'] = null;
             {% endif %}

@@ -84,6 +84,7 @@ $("#submit_btn").click(function(){
     }
 });
 var varifty = function(post_data){
+    console.log(post_data);
     var r_data = {};
     if (!post_data['open_id']) {
         r_data['status'] = 'error';
