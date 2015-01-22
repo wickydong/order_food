@@ -69,7 +69,7 @@
                 <button type="button" data-inline="true" id="come_data_2">明天</button>
                 <button type="button" data-inline="true" id="come_data_3">后天</button>
                 <div style="margin: 5px auto;width: 250px;">
-                    <select name="come_hour" data-inline="true">
+                    <select name="come_hour" data-inline="true" id="come_time_hour">
                         <option value="00">时</option>
                         <option value="01">01</option>
                         <option value="02">02</option>
@@ -97,7 +97,7 @@
                         <option value="24">24</option>
                     </select>
                     <strong data-inline="true">:&nbsp;&nbsp;</strong>
-                    <select name="come_minute" data-inline="true">
+                    <select name="come_minute" data-inline="true" id="come_time_minute">
                         <option value="00">分</option>
                         <option value="00">00</option>
                         <option value="15">15</option>
@@ -105,9 +105,9 @@
                         <option value="45">45</option>
                     </select>
                 </div>
-                <input type="text" name="user_name" placeholder="姓名">
-                <input type="text" name="phone_number" placeholder="手机号">
-                <select name="come_people">
+                <input type="text" name="user_name" placeholder="姓名" id="userName">
+                <input type="text" name="phone_number" placeholder="手机号" id="phoneNumber">
+                <select name="come_people" id="comePeople">
                     <option value="0">到店人数</option>
                     <option value="1">1人</option>
                     <option value="2">2人</option>
@@ -115,7 +115,7 @@
                     <option value="4">4人</option>
                     <option value="5">5人</option>
                 </select>
-                <select  name="room_type">
+                <select  name="room_type" id="roomType">
                     <option value="0">房间类型</option>
                     <option value="1">单人</option>
                     <option value="2">双人</option>
@@ -123,51 +123,11 @@
                     <option value="4">四人</option>
                     <option value="5">五人</option>
                 </select>
-                <input type="text" name="other" placeholder="备注(可不填)"/>
+                <input type="text" name="other" placeholder="备注(可不填)" id="otherContent"/>
                 <button type="button" id="submit_btn">确认提交</button>
             </form>
         </div>
     </div>
-    <script type="text/javascript">
-        var datef = new Date();
-        $("#come_data_1").click(function(){
-            postData['come_date']   = datef.getFullYear()+'-'+(datef.getMonth()+1)+'-'+datef.getDate();
-            $(this).css('background','red');
-            $("#come_data_2").css('background','#fff');
-            $("#come_data_3").css('background','#fff');
-        });
-        $("#come_data_2").click(function(){
-            postData['come_date']   = datef.getFullYear()+'-'+(datef.getMonth()+1)+'-'+(datef.getDate()+1);
-            $(this).css('background','red');
-            $("#come_data_1").css('background','#fff');
-            $("#come_data_3").css('background','#fff');
-        });
-        $("#come_data_3").click(function(){
-            postData['come_date']   = datef.getFullYear()+'-'+(datef.getMonth()+1)+'-'+(datef.getDate()+2);
-            $(this).css('background','red');
-            $("#come_data_1").css('background','#fff');
-            $("#come_data_2").css('background','#fff');
-        });
-        $("#submit_btn").click(function(){
-            var postData = {};
-            postData['open_id']     = dataOpenId;
-            postData['user_status'] = dataUserStatus;
-            postData['user_name']   = dataUserName;
-            postData['phone']       = dataPhoneNumber;
-            postData['come_date']   = dataComeData;
-            postData['come_time']   = dataComeTime;
-            postData['come_poeple'] = dataComePeople;
-            postData['room_type']   = dataRoomType;
-            $.post(
-                '/reservation',
-                postData,
-                function(data){
-                    alert(data);
-                }
-            );
-        });
-        var varifty = function(){
-        }
-    </script>
+    <script type="text/javascript" src="/static/js/reservation.js"></script>
     </body>
 </html>
