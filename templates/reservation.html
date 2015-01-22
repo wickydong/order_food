@@ -12,7 +12,7 @@
 
             // open_id
             {% if open_id %}
-                postData['open_id'] = {{open_id}};
+                postData['open_id'] = {% print open_id %};
             {% else %}
                 postData['open_id'] = null;
             {% endif %}
