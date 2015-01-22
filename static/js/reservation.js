@@ -57,10 +57,10 @@ $("#comePeople").change(function(){
     postData['come_people'] = $(this).val();
 });
 // change postData['room_type']
-$("$roomType").change(function(){
+$("#roomType").change(function(){
     postData['room_type'] = $(this).val();
 });
-$("$otherContent").change(function(){
+$("#otherContent").change(function(){
     postData['other'] = $(this).val();
 });
 // submit form
@@ -123,9 +123,9 @@ var varifty = function(post_data){
     } else if (!post_data['room_type']) {
         r_data['status'] = 'error';
         r_data['string'] = 'room_type is null';
-        r_data['dome_id'] = 'roomType';
+        r_data['dome_id'] = '#roomType';
         return r_data;
-    else{
+    } else{
         if (!post_data['other']) {
             post_data['other'] = null;
         }

@@ -109,6 +109,7 @@ def reservation():
     if len(select_user) == 0:
         return render_template("reservation.html",open_id=open_id,user_status="notis")
     phone = str(select_user[0][2])
+    print phone
     user_name = str(select_user[0][3])
     return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
 
