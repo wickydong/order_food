@@ -33,9 +33,9 @@
 
             // phone
             {% if phone %}
-                postData['phone'] = '{% print phone %}';
+                postData['phone_number'] = '{% print phone %}';
             {% else %}
-                postData['phone'] = null;
+                postData['phone_number'] = null;
             {% endif %}
 
             // come_date

@@ -1,7 +1,7 @@
 // add user phone and user_name into input
 $(document).ready(function(){
-    if (postData['phone'] != null) {
-        $('#userName').val(postData['phone']);
+    if (postData['phone_number'] != null) {
+        $('#userName').val(postData['phone_number']);
     }
     if (postData['user_name'] != null) {
         $('#phoneNumber').val(postData['user_name']);
@@ -50,7 +50,7 @@ $("#userName").change(function(){
 });
 // change postData['phone']
 $("#phoneNumber").change(function(){
-    postData['phone'] = $(this).val()
+    postData['phone_number'] = $(this).val()
 });
 // change postData['come_people']
 $("#comePeople").change(function(){
@@ -101,9 +101,9 @@ var varifty = function(post_data){
         r_data['string'] = 'user_name is null';
         r_data['dome_id'] = '#userName';
         return r_data;
-    } else if (!post_data['phone']) {
+    } else if (!post_data['phone_number']) {
         r_data['status'] = 'error';
-        r_data['string'] = 'phone is null';
+        r_data['string'] = 'phone number is null';
         r_data['dome_id'] = 'phoneNumber';
         return r_data;
     } else if (!post_data['come_date']) {
