@@ -1,10 +1,10 @@
 // add user phone and user_name into input
 $(document).ready(function(){
-    if (postData['phone_number'] != null) {
-        $('#userName').val(postData['phone_number']);
-    }
     if (postData['user_name'] != null) {
-        $('#phoneNumber').val(postData['user_name']);
+        $('#userName').val(postData['user_name']);
+    }
+    if (postData['phone_number'] != null) {
+        $('#phoneNumber').val(postData['phone_number']);
     }
 });
 // change postData['come_date']
