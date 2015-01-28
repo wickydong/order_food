@@ -172,6 +172,7 @@ def review_over():
     phone = request.args.get("phone")
     date = request.args.get("date")
     review_back = makesql.seat_allow(phone,date)
+    print review_back
     return redirect("http://yoogane.sunzhongwei.com/review_seat")
 @app.route("/review_change")  #审核修改座位
 def review_change():

@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 import MySQLdb
 from datetime import date
-#date = date.today()
-date = "0000-00-00"
+date = date.today()
 
 def makesql():  #初始化数据库
     con =MySQLdb.connect(host="localhost",user="root",passwd="root",\
@@ -56,7 +55,6 @@ def select_seat():  #查询订座信息
                 other from reservation where review='pending'\
                 and date_format(come_date,'%%Y-%%m-%%d')=%s",date)
         fetchall = make.fetchall()
-        print fetchall
         return fetchall
     except Exception,e:
         return e
@@ -81,8 +79,9 @@ def select_allowseat():  #查询已审核订座信息
 def seat_allow(phone,date):  #审核通过订座
     make,con = makesql()
     try:
+        print phone,date
         result = make.execute("update reservation set review='allow' where \
-                phone=%s and date_format(come_date,'%%Y-%%m-%%d')=%s" %(phone,date))
+                phone=%s and date_format(come_date,'%%Y-%%m-%%d')='%s'" %(phone,"2015-01-27"))
         con.commit()
         return result
     except Exception,e:
