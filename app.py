@@ -100,7 +100,6 @@ def reservation():
                 return "wrong"
         select_user = makesql.select_user(open_id)
         if len(select_user) == 0:
-            print "hi,i'm here"
             return render_template("reservation.html",open_id=open_id,user_status="notis")
         phone = str(select_user[0][2])
         user_name = str(select_user[0][3])
