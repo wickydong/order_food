@@ -81,7 +81,7 @@ def seat_allow(phone,date):  #审核通过订座
     try:
         print phone,date
         result = make.execute("update reservation set review='allow' where \
-                phone=%s and date_format(come_date,'%%Y-%%m-%%d')='%s'" %(phone,"2015-01-27"))
+                phone=%s and date_format(come_date,'%%Y-%%m-%%d')='%s'" %(phone,date))
         con.commit()
         return result
     except Exception,e:
