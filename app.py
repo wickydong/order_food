@@ -100,7 +100,6 @@ def reservation():
                 return "wrong"
         select_user = makesql.select_user(open_id)
         if len(select_user) == 0:
-            print "hi,i'm here"
             return render_template("reservation.html",open_id=open_id,user_status="notis")
         phone = str(select_user[0][2])
         user_name = str(select_user[0][3])
@@ -172,6 +171,7 @@ def review_over():
     phone = request.args.get("phone")
     date = request.args.get("date")
     review_back = makesql.seat_allow(phone,date)
+    print review_back
     return redirect("http://yoogane.sunzhongwei.com/review_seat")
 @app.route("/review_change")  #审核修改座位
 def review_change():
