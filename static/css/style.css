@@ -7,5 +7,5 @@
 }
 .ui-focus {
     border-color: #38c !important;
-    box-shadow: 0 !important;
+    box-shadow: none !important;
 }
