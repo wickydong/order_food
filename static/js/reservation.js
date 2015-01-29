@@ -9,7 +9,14 @@ $(document).ready(function(){
 });
 // change postData['come_date']
 var datef = new Date();
-$("#come_data_1").click(function(){
+
+$(".date").on("click", function(event) {
+    var index = $(".date").index(this);
+    postData.come_date = (new Date(datef.getDate() + index)).toISOString().slice(0,10);
+    console.log(postData);
+});
+
+/*$("#come_data_1").click(function(){
     postData['come_date']   = datef.getFullYear()+'-'+(datef.getMonth()+1)+'-'+datef.getDate();
     $(this).css('background','red');
     $("#come_data_2").css('background','#fff');
@@ -26,7 +33,7 @@ $("#come_data_3").click(function(){
     $(this).css('background','red');
     $("#come_data_1").css('background','#fff');
     $("#come_data_2").css('background','#fff');
-});
+});*/
 // change postData['come_time']
 var hour = null;
 var minute = null;
