@@ -2,23 +2,74 @@
 <html lang="zh-CN">
 
 <head>
-  <meta charset="utf-8">
   <title>柳氏家|订餐</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" type="text/css" href="/static/jquery_mobile/jquery.mobile-1.4.5.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+  <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="/static/jquery_mobile/jquery.mobile-1.4.5.min.js"></script>
 </head>
 
 <body>
-  <form action="/order" name="order_sure" method="post">
-    <input type="checkbox" name="dishes" value="酸辣土豆丝" />
-    酸辣土豆丝
-    </br>
-    <input type="checkbox" name="dishes" value="鱼香肉丝" />
-    鱼香肉丝
-    </br>
-    <input type="checkbox" name="dishes" value="酸辣汤" />
-    酸辣汤
-    </br>
-    <input type="submit" value="选好了" />
-  </form>
+    <ul data-role="listview" data-inset="true">
+        <li>
+            <a href="#">
+                <img src="/static/food_img/food_1.jpg">
+                <h3>Food One</h3>
+                <p>Food One is very nice</p>
+                <span class="ui-li-count">25</span>
+            </a>
+             <a href="#" data-rel="dialog" data-transition="pop">sub</a>
+        </li>
+        <li>
+            <a href="#">
+                <img src="/static/food_img/food_1.jpg">
+                <h3>Food One</h3>
+                <p>Food One is very nice</p>
+                <span class="ui-li-count">25</span>
+            </a>
+            <a href="#" data-rel="dialog" data-transition="pop">sub</a>
+        </li>
+        <li>
+            <a href="#">
+                <img src="/static/food_img/food_1.jpg">
+                <h3>Food One</h3>
+                <p>Food One is very nice</p>
+                <span class="ui-li-count">25</span>
+            </a>
+            <a href="#" data-rel="dialog" data-transition="pop">sub</a>
+        </li>
+        <li>
+            <a href="#">
+                <img src="/static/food_img/food_1.jpg">
+                <h3>Food One</h3>
+                <p>Food One is very nice</p>
+                <span class="ui-li-count">25</span>
+            </a>
+            <a href="#" data-rel="dialog" data-transition="pop">sub</a>
+        </li>
+        <li>
+            <a href="#">
+                <img src="/static/food_img/food_1.jpg">
+                <h3>Food One</h3>
+                <p>Food One is very nice</p>
+                <span class="ui-li-count">25</span>
+            </a>
+            <a href="#" data-rel="dialog" data-transition="pop">sub</a>
+        </li>
+        <li>
+            <a href="#">
+                <img src="/static/food_img/food_1.jpg">
+                <h3>Food One</h3>
+                <p>Food One is very nice</p>
+                <span class="ui-li-count">25</span>
+            </a>
+            <a href="#" data-rel="dialog" data-transition="pop">sub</a>
+        </li>
+    </ul>
+    <button type="button" id="submit_btn">选好了</button>
+    <script type="text/javascript" src="/static/js/order.js"></script>
 </body>
 
 </html>
