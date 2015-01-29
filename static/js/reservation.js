@@ -8,11 +8,12 @@ $(document).ready(function(){
     }
 });
 // change postData['come_date']
-var datef = new Date();
+//var datef = new Date();
 
 $(".date").on("click", function(event) {
     var index = $(".date").index(this);
-    var date = (new Date()).setDate(datef.getDate() + index);
+    var date = new Date();
+    date.setDate(date.getDate() + index);
     postData.come_date = date.toISOString().slice(0,10);
     console.log(postData);
 });
