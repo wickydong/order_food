@@ -12,7 +12,7 @@ var datef = new Date();
 
 $(".date").on("click", function(event) {
     var index = $(".date").index(this);
-    postData.come_date = (new Date(datef.getDate() + index)).toISOString().slice(0,10);
+    postData.come_date = (new Date()).setDate(datef.getDate() + index).toISOString().slice(0,10);
     console.log(postData);
 });
 
