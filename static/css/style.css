@@ -5,3 +5,7 @@
     border: 1px solid #f00 !important;
     color: #f00 !important;
 }
+.ui-focus {
+    border-color: #38c !important;
+    box-shadow: 0 !important;
+}
