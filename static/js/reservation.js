@@ -15,7 +15,6 @@ $(".date").on("click", function(event) {
     var date = new Date();
     date.setDate(date.getDate() + index);
     postData.come_date = date.toISOString().slice(0,10);
-    console.log(postData);
 });
 
 /*$("#come_data_1").click(function(){
