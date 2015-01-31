@@ -12,3 +12,8 @@
 .ui-shadow-inset{
     box-shadow: none;
 }
+
+.ui-input-text{
+    margin: 0;
+    border-width: 0;
+}
