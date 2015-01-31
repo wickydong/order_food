@@ -9,3 +9,6 @@
     border-color: #38c !important;
     box-shadow: none !important;
 }
+.ui-shadow-inset{
+    box-shadow: none;
+}
