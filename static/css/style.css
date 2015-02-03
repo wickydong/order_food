@@ -13,6 +13,17 @@
     box-shadow: none;
 }
 
+.time-box{
+    display: flex;
+    display: -webkit-flex;
+    margin: 5px auto;
+    width: 100%;
+}
+
+#come_time_hour-button{
+    box-sizing: border-box;
+}
+
 /*.ui-input-text{
     margin: 0;
     border-width: 0;
