@@ -14,10 +14,20 @@
 }
 
 .time-box{
-    display: flex;
-    display: -webkit-flex;
+    display: box;
+    display: -webkit-box;
     margin: 5px auto;
     width: 100%;
+}
+
+.time-box > *{
+    box-flex: 1;
+    -webkit-box-flex: 1;
+}
+
+.time-box > *:first-child{
+    box-flex: 3;
+    -webkit-box-flex: 3;
 }
 
 #come_time_hour-button{
