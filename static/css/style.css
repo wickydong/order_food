@@ -21,6 +21,7 @@
 }
 
 .time-box > *{
+    display: block;
     box-flex: 1;
     -webkit-box-flex: 1;
 }
