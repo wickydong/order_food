@@ -86,7 +86,9 @@ $("#submit_btn").click(function(){
             '/reservation',
             postData,
             function(data){
-                console.log(data);
+                if (data=="ok"){
+                               window.location.href="http://baidu.com";
+                               }
             }
         );
     }

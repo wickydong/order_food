@@ -55,6 +55,7 @@ def select_seat():  #查询订座信息
                 other from reservation where review='pending'\
                 and date_format(come_date,'%%Y-%%m-%%d')=%s",date)
         fetchall = make.fetchall()
+        print fetchall
         return fetchall
     except Exception,e:
         return e

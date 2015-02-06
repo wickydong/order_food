@@ -78,7 +78,7 @@ def reservation():
                                        }
                               }  
                     put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
-                    print put.text
+                    print "is ok"
                     return "ok"
                 return "wrong"
             else:
@@ -104,7 +104,6 @@ def reservation():
         phone = str(select_user[0][2])
         user_name = str(select_user[0][3])
         return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
-    #return render_template("reservation.html",open_id="sssssss",phone="15506458267",user_name="wicky",user_status="is")
     open_id = request.args.get("open_id")
     print open_id
     select_user = makesql.select_user(open_id)
@@ -113,7 +112,6 @@ def reservation():
     phone = str(select_user[0][2])
     user_name = str(select_user[0][3])
     return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
-
 @app.route("/vip",methods=["GET","POST"])    #会员
 def vip():
     if request.method == "POST":
@@ -152,6 +150,7 @@ def review_seat():
     review_seat = makesql.select_seat()
     review_allowseat = makesql.select_allowseat()
     review_list = []
+    print review_list
     allow_list = []
     if len(review_seat) != 0:
         for i in review_seat:
