@@ -6,6 +6,9 @@ $(document).ready(function(){
     if (postData['phone_number'] != null) {
         $('#phoneNumber').val(postData['phone_number']);
     }
+    $("input").focus(function(){
+        $(this).removeClass("error-input");
+    });
 });
 // change postData['come_date']
 //var datef = new Date();
@@ -77,7 +80,7 @@ $("#submit_btn").click(function(){
     if (r_varify['status'] == 'error') {
         console.log(r_varify['string']);
         if (r_varify['dome_id']) {
-            $(r_varify['dome_id']).css('border', '1px solid #f00');
+            $(r_varify['dome_id']).addClass("error-input");
         } else {
             alert(r_varify['string']);
         }
@@ -87,8 +90,8 @@ $("#submit_btn").click(function(){
             postData,
             function(data){
                 if (data=="ok"){
-                               window.location.href="http://baidu.com";
-                               }
+                    window.location.href="http://baidu.com";
+                }
             }
         );
     }
@@ -114,7 +117,7 @@ var varifty = function(post_data){
     } else if (!post_data['phone_number']) {
         r_data['status'] = 'error';
         r_data['string'] = 'phone number is null';
-        r_data['dome_id'] = 'phoneNumber';
+        r_data['dome_id'] = '#phoneNumber';
         return r_data;
     } else if (!post_data['come_date']) {
         r_data['status'] = 'error';
@@ -129,12 +132,12 @@ var varifty = function(post_data){
     } else if (!post_data['come_people']) {
         r_data['status'] = 'error';
         r_data['string'] = 'come_people is null';
-        r_data['dome_id'] = '#comePeople';
+        r_data['dome_id'] = '';
         return r_data;
     } else if (!post_data['room_type']) {
         r_data['status'] = 'error';
         r_data['string'] = 'room_type is null';
-        r_data['dome_id'] = '#roomType';
+        r_data['dome_id'] = '';
         return r_data;
     } else{
         if (!post_data['other']) {

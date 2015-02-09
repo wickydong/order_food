@@ -22,8 +22,8 @@
 
 .time-box > *{
     display: block;
-    box-flex: 1;
-    -webkit-box-flex: 1;
+    box-flex: 3;
+    -webkit-box-flex: 3;
 }
 
 .time-box > *:first-child{
@@ -31,9 +31,10 @@
     -webkit-box-flex: 3;
 }
 
-#come_time_hour-button{
-    box-sizing: border-box;
+.error-input {
+    border: 2px solid #f00 !important;
 }
+
 
 /*.ui-input-text{
     margin: 0;
