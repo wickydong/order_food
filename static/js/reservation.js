@@ -8,6 +8,7 @@ $(document).ready(function(){
     }
     $("input").focus(function(){
         $(this).removeClass("error-input");
+	$(this).parent().removeClass("ui-error");
     });
 });
 // change postData['come_date']
@@ -55,6 +56,7 @@ $("#come_time_minute").change(function(){
         console.log(postData['come_time']);
     }
 });
+/*
 // change postData['user_name']
 $("#userName").change(function(){
     postData['user_name'] = $(this).val()
@@ -74,13 +76,24 @@ $("#roomType").change(function(){
 $("#otherContent").change(function(){
     postData['other'] = $(this).val();
 });
+*/
 // submit form
 $("#submit_btn").click(function(){
+    // get data
+    postData['user_name'] = $("#user_name").val();
+    postData['phone_number'] = $("#phone_number").val();
+    postData['come_people'] = $("#come_people").val();
+    postData['room_type'] = $("#room_type").val();
+    postData['other'] = $("#otherContent").val();
+
     var r_varify = varifty(postData);
+    var errorList = ['user_name', 'phone_number', 'come_people', 'room_type'];
     if (r_varify['status'] == 'error') {
         console.log(r_varify['string']);
-        if (r_varify['dome_id']) {
-            $(r_varify['dome_id']).addClass("error-input");
+	console.log(r_varify['dome_id']);
+        //if (r_varify['dome_id']) {
+        if($.inArray(r_varify['dome_id'], errorList) >= 0) {
+            $("#"+r_varify['dome_id']).parent().addClass("ui-error");//css('border', '1px solid #f00');
         } else {
             alert(r_varify['string']);
         }
@@ -98,8 +111,30 @@ $("#submit_btn").click(function(){
 });
 var varifty = function(post_data){
     console.log(post_data);
+    var list = [
+            'open_id',
+            'user_status',
+            'user_name',
+            'phone_number',
+            'come_date',
+            'come_time',
+            'come_people',
+            'room_type'
+        ];
     var r_data = {};
-    if (!post_data['open_id']) {
+
+    for(var i in list) {
+        if(!post_data[list[i]]) {
+            r_data['status'] = "error";
+            r_data['string'] = list[i] + " is empty";
+            r_data["dome_id"] = list[i];
+            return r_data;
+        }
+    }
+    r_data['status'] = 'success';
+    return r_data;
+
+    /*if (!post_data['open_id']) {
         r_data['status'] = 'error';
         r_data['string'] = 'open_id is null';
         r_data['dome_id'] = '';
@@ -145,5 +180,5 @@ var varifty = function(post_data){
         }
         r_data['status'] = 'success';
         return r_data;
-    }
+    }*/
 }
