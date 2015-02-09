@@ -13,6 +13,10 @@
     box-shadow: none;
 }
 
+.ui-error{
+    border-color: #E74C3C;
+}
+
 .time-box{
     display: box;
     display: -webkit-box;
