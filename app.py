@@ -45,6 +45,7 @@ def takeout():
 @app.route("/order",methods=["GET","POST"])   #订餐页
 def order():
     if request.method == "GET":
+        open_id = request.args.get("open_id")
         return render_template("order.html")
     order_list = request.form.getlist("dishes")
     return render_template("order_sure.html",order_list=order_list)
@@ -61,6 +62,8 @@ def reservation():
         other = request.form.get("other")
         user_status = request.form.get("user_status")
         vip = "NO"
+    return render_template("reservation.html",open_id='1231231',user_status='is')
+'''
         print str(phone).isdigit()
         print len(str(phone))
         if str(phone).isdigit() == True and len(str(phone)) == 11:
@@ -112,6 +115,7 @@ def reservation():
     phone = str(select_user[0][2])
     user_name = str(select_user[0][3])
     return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
+'''
 @app.route("/vip",methods=["GET","POST"])    #会员
 def vip():
     if request.method == "POST":
