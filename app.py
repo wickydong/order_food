@@ -81,7 +81,7 @@ def reservation():
         other = request.form.get("other")
         user_status = request.form.get("user_status")
         vip = "NO"
-    return render_template("reservation.html",open_id='1231231',user_status='is')
+    return render_template("reservation.html",open_id='1231231',user_status='is',phone='13012345678')
 '''
         if str(phone).isdigit() == True and len(str(phone)) == 11:
             seat_message = [open_id,come_date,come_time,int(come_people), other]
