@@ -15,9 +15,10 @@ def insert_seat(position_message):  #插入用户订座数据
     make,con = makesql()
     print position_message
     try:
-        make.execute("insert into reservation (open_id,phone,user_name,come_date,come_time,come_people,other) values (%s,%s,%s,%s,%s,%s,%s)",position_message)
+        make.execute("insert into reservation (open_id,come_date,come_time,come_people,other) values (%s,%s,%s,%s,%s)",position_message)
+        insert_id = int(con.insert_id())
         con.commit()
-        return "OK"
+        return insert_id
     except Exception,e:
         return e
     make.close()
@@ -28,8 +29,9 @@ def insert_user(user_message):   #插入用户信息数据
     make,con = makesql()
     try:
         make.execute("insert into user (open_id,phone,user_name,vip) values (%s,%s,%s,%s)",user_message)
+        insert_id = int(con.insert_id())
         con.commit()
-        return "OK"
+        return insert_id
     except Exception,e:
         return e
     make.close()
@@ -51,11 +53,10 @@ def select_user(open_id):  #查询用户信息
 def select_seat():  #查询订座信息
     make,con = makesql()
     try:
-        make.execute("select phone,user_name,date_format(come_date,'%%Y-%%m-%%d'),come_time,come_people,\
+        make.execute("select open_id,date_format(come_date,'%%Y-%%m-%%d'),come_time,come_people,\
                 other from reservation where review='pending'\
                 and date_format(come_date,'%%Y-%%m-%%d')=%s",date)
         fetchall = make.fetchall()
-        print fetchall
         return fetchall
     except Exception,e:
         return e
@@ -66,7 +67,7 @@ def select_seat():  #查询订座信息
 def select_allowseat():  #查询已审核订座信息
     make,con = makesql()
     try:
-        make.execute("select phone,user_name,date_format(come_date,'%%Y-%%m-%%d'),come_time,come_people,\
+        make.execute("select open_id,date_format(come_date,'%%Y-%%m-%%d'),come_time,come_people,\
                 other from reservation where review='allow' and \
                 date_format(come_date,'%%Y-%%m-%%d')=%s",date)
         fetchall = make.fetchall()
@@ -77,14 +78,63 @@ def select_allowseat():  #查询已审核订座信息
     con.close()
 
 
-def seat_allow(phone,date):  #审核通过订座
+def seat_allow(open_id,date):  #审核通过订座
     make,con = makesql()
+    print open_id
     try:
-        print phone,date
         result = make.execute("update reservation set review='allow' where \
-                phone=%s and date_format(come_date,'%%Y-%%m-%%d')='%s'" %(phone,date))
+                open_id='%s' and date_format(come_date,'%%Y-%%m-%%d')='%s'" %(open_id,date))
         con.commit()
         return result
+    except Exception,e:
+        return e
+    make.close()
+    con.close()
+
+def add_food(food_msg):  #修改菜品信息（供后台使用）
+    make,con = makesql()
+    try:
+        make.execute("insert into food (img_url,food_name,price) values (%s,%s,%s)",food_msg)
+        con.commit()
+        return "OK"
+    except Exception,e:
+        return e
+    make.close()
+    con.close()
+
+
+def modify_food(food_msg):  #修改菜品信息（供后台使用）
+    make,con = makesql()
+    img_url = food_msg[0]
+    food_name = food_msg[1]
+    price = food_msg[2]
+    print img_url,food_name,price
+    try:
+        a = make.execute("update food set img_url='%s',price='%s' where food_name='%s'" %(img_url,price,food_name))
+        print a
+        con.commit()
+        return "OK"
+    except Exception,e:
+        return e
+    make.close()
+    con.close()
+
+def show_food():  #展示菜品信息（供后台使用）
+    make,con = makesql()
+    try:
+        make.execute("select img_url,food_name,price from food")
+        fetchall = make.fetchall()
+        return fetchall
+    except Exception,e:
+        return e
+    make.close()
+    con.close()
+def showline_food(food_name):  #展菜品信息（供后台使用）
+    make,con = makesql()
+    try:
+        make.execute("select img_url,price from food where food_name=%s",food_name)
+        fetchall = make.fetchall()
+        return fetchall
     except Exception,e:
         return e
     make.close()

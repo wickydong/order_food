@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="/static/index.css">
+  <title>柳氏家|后台</title>
+</head>
+
+<body>
+<form action="/modify_food" method="get">
+  <input type=text style="display:none" name="modify_status" value="modify_food"/>
+    <input type="text" name="food_name" value="{{choice_food}}">
+    <input type="text" name="img_url" value="{{imgurl}}">
+    <input type="text" name="price" value="{{price}}">
+  <input type="submit" value="确认提交" />
+</form>
+</body>
+</html>
+
+
+

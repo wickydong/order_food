@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="/static/index.css">
+  <title>柳氏家|后台</title>
+</head>
+
+<body>
+<form action="/modify_food" method="get">
+  <input type=text style="display:none" name="modify_status" value="choice_food"/>
+  {% for i in show_food %}
+    <p>
+    {{i[1]}}||{{i[2]}}||{{i[0]}}
+    <input type="radio" name="choice_food" value="{{i[1]}}">
+    </p>
+  {% endfor %}
+  <input type="submit" value="确认提交" />
+</form>
+</body>
+
+</html>
+
+
+

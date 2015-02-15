@@ -11,15 +11,24 @@
   <script type="text/javascript" src="/static/jquery_mobile/jquery.mobile-1.4.5.min.js"></script>
   <style type="text/css">
   .food-list {
+    margin: 5px 0px 0px 0px;
+    padding: 0px;
   }
   .food-list li {
+    display: box;
+    display: -webkit-box;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
     list-style:none;
     overflow: hidden;
   }
-  .food-list div {
-    float: left;
+  .food-list li > * {
     padding-left: 5px;
     padding-right: 5px;
+    display: block;
+    box-flex: 1;
+    -webkit-box-flex: 1;
   }
   .food-list a {
     float: right;
@@ -28,93 +37,40 @@
     padding: 5px;
     text-decoration: none;
   }
-  .list-img {
-    width: 25%;
+  .list-img img{
+    margin:0px auto;
+    display: block;
+    max-width: 100px;
   }
-  .list-foodname {
+  .list-foodname p {
     text-align: center;
-    font-size: 20px;
-    line-height: 40px;
     color: #777;
   }
+  .food-name {
+  }
+  .food-money {
+    display: none;
+  }
   .list-btn {
-    float: right !important;
+    min-width: 30%;
+  }
+  .sub-food-num {
+    display:none;
+  }
+  .sum-food-num {
+    display:none;
+  }
+  .add-food-num {
   }
   </style>
+  <script type="text/javascript">
+    open_id = '{% print open_id %}'
+  </script>
 </head>
 
 <body>
    <ul class="food-list">
-     <li>
-       <div class="list-img">
-         <img src="/static/food_img/food_1.jpg">
-       </div>
-       <div class="list-foodname"><strong>food one</strong></div>
-       <div class="list-btn">
-         <a href="javascript:;">-</a>
-         <a href="javascript:;">2</a>
-         <a href="javascript:;">+</a>
-       </div>
-     </li>
    </ul>
-<!--
-    <ul data-role="listview" data-inset="true">
-        <li>
-            <a href="#">
-                <img src="/static/food_img/food_1.jpg">
-                <h3>Food One</h3>
-                <p>Food One is very nice</p>
-                <span class="ui-li-count">25</span>
-            </a>
-             <a href="#" data-rel="dialog" data-transition="pop">sub</a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="/static/food_img/food_1.jpg">
-                <h3>Food One</h3>
-                <p>Food One is very nice</p>
-                <span class="ui-li-count">25</span>
-            </a>
-            <a href="#" data-rel="dialog" data-transition="pop">sub</a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="/static/food_img/food_1.jpg">
-                <h3>Food One</h3>
-                <p>Food One is very nice</p>
-                <span class="ui-li-count">25</span>
-            </a>
-            <a href="#" data-rel="dialog" data-transition="pop">sub</a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="/static/food_img/food_1.jpg">
-                <h3>Food One</h3>
-                <p>Food One is very nice</p>
-                <span class="ui-li-count">25</span>
-            </a>
-            <a href="#" data-rel="dialog" data-transition="pop">sub</a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="/static/food_img/food_1.jpg">
-                <h3>Food One</h3>
-                <p>Food One is very nice</p>
-                <span class="ui-li-count">25</span>
-            </a>
-            <a href="#" data-rel="dialog" data-transition="pop">sub</a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="/static/food_img/food_1.jpg">
-                <h3>Food One</h3>
-                <p>Food One is very nice</p>
-                <span class="ui-li-count">25</span>
-            </a>
-            <a href="#" data-rel="dialog" data-transition="pop">sub</a>
-        </li>
-    </ul>
--->
     <button type="button" id="submit_btn">选好了</button>
     <script type="text/javascript" src="/static/js/order.js"></script>
 </body>

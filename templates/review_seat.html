@@ -21,6 +21,7 @@
 {% for a in review_list %}
     <form action="/review_over" method="get">
     <tr>
+      <td><input value="{{a[6]}}"  name="open_id" readonly="readonly" style="border:0px;" /></td>
       <td><input value="{{a[0]}}"  name="phone" readonly="readonly" style="border:0px;" /></td>
       <td><input value="{{a[1]}}" readonly="readonly" style="border:0px;" /></td>
       <td><input value="{{a[2]}}" name="date" readonly="readonly" style="border:0px;" /></td>
@@ -55,6 +56,7 @@
 {% for i in allow_list %}
     <form>
     <tr>
+      <td><input value="{{i[6]}}"  name="open_id" readonly="readonly" style="border:0px;" /></td>
       <td><input value="{{i[0]}}"  name="phone" readonly="readonly" style="border:0px;" /></td>
       <td><input value="{{i[1]}}" readonly="readonly" style="border:0px;" /></td>
       <td><input value="{{i[2]}}" readonly="readonly" style="border:0px;" /></td>
