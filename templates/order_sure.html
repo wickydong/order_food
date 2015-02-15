@@ -4,13 +4,26 @@
 <head>
   <meta charset="utf-8">
   <title>柳氏家|确认订餐</title>
+  <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
 </head>
 
 <body>
-{% for i in order_list %}
-{{i}}
-{% endfor %}
+<button class="submit" id="1">只定座</button>
+<button class="submit" id="2">店内点餐</button>
+<button class="submit" id="3">继续订餐</button>
 
+<script type="text/javascript">
+    $('.submit').click(function(){
+        var btn_id = $(this).attr("id");
+        if (btn_id == 1) {
+            window.location.href="/";
+        } else if (btn_id == 2) {
+            window.location.href="/";
+        } else if (btn_id == 3) {
+            window.location.href="/";
+        }
+    });
+</script>
 </body>
 
 </html>
