@@ -81,7 +81,8 @@ def reservation():
         other = request.form.get("other")
         user_status = request.form.get("user_status")
         vip = "NO"
-    #return render_template("reservation.html",open_id='1231231',user_status='is')
+    return render_template("reservation.html",open_id='1231231',user_status='is')
+'''
         if str(phone).isdigit() == True and len(str(phone)) == 11:
             seat_message = [open_id,come_date,come_time,int(come_people), other]
             global access_token
@@ -125,6 +126,7 @@ def reservation():
     phone = str(select_user[0][2])
     user_name = str(select_user[0][3])
     return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
+'''
 
 @app.route("/vip",methods=["GET","POST"])    #会员
 def vip():
