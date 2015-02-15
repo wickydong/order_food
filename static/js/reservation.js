@@ -20,25 +20,6 @@ $(".date").on("click", function(event) {
     date.setDate(date.getDate() + index);
     postData.come_date = date.toISOString().slice(0,10);
 });
-
-/*$("#come_data_1").click(function(){
-    postData['come_date']   = datef.getFullYear()+'-'+(datef.getMonth()+1)+'-'+datef.getDate();
-    $(this).css('background','red');
-    $("#come_data_2").css('background','#fff');
-    $("#come_data_3").css('background','#fff');
-});
-$("#come_data_2").click(function(){
-    postData['come_date']   = datef.getFullYear()+'-'+(datef.getMonth()+1)+'-'+(datef.getDate()+1);
-    $(this).css('background','red');
-    $("#come_data_1").css('background','#fff');
-    $("#come_data_3").css('background','#fff');
-});
-$("#come_data_3").click(function(){
-    postData['come_date']   = datef.getFullYear()+'-'+(datef.getMonth()+1)+'-'+(datef.getDate()+2);
-    $(this).css('background','red');
-    $("#come_data_1").css('background','#fff');
-    $("#come_data_2").css('background','#fff');
-});*/
 // change postData['come_time']
 var hour = null;
 var minute = null;
@@ -56,27 +37,6 @@ $("#come_time_minute").change(function(){
         console.log(postData['come_time']);
     }
 });
-/*
-// change postData['user_name']
-$("#userName").change(function(){
-    postData['user_name'] = $(this).val()
-});
-// change postData['phone']
-$("#phoneNumber").change(function(){
-    postData['phone_number'] = $(this).val()
-});
-// change postData['come_people']
-$("#comePeople").change(function(){
-    postData['come_people'] = $(this).val();
-});
-// change postData['room_type']
-$("#roomType").change(function(){
-    postData['room_type'] = $(this).val();
-});
-$("#otherContent").change(function(){
-    postData['other'] = $(this).val();
-});
-*/
 // submit form
 $("#submit_btn").click(function(){
     // get data
@@ -103,7 +63,7 @@ $("#submit_btn").click(function(){
             postData,
             function(data){
                 if (data=="ok"){
-                    window.location.href="http://baidu.com";
+                    window.location.href="/";
                 }
             }
         );
@@ -133,52 +93,4 @@ var varifty = function(post_data){
     }
     r_data['status'] = 'success';
     return r_data;
-
-    /*if (!post_data['open_id']) {
-        r_data['status'] = 'error';
-        r_data['string'] = 'open_id is null';
-        r_data['dome_id'] = '';
-        return r_data;
-    } else if (!post_data['user_status']) {
-        r_data['status'] = 'error';
-        r_data['string'] = 'user_status is null';
-        r_data['dome_id'] = '';
-        return r_data;
-    } else if (!post_data['user_name']) {
-        r_data['status'] = 'error';
-        r_data['string'] = 'user_name is null';
-        r_data['dome_id'] = '#userName';
-        return r_data;
-    } else if (!post_data['phone_number']) {
-        r_data['status'] = 'error';
-        r_data['string'] = 'phone number is null';
-        r_data['dome_id'] = '#phoneNumber';
-        return r_data;
-    } else if (!post_data['come_date']) {
-        r_data['status'] = 'error';
-        r_data['string'] = 'come_date is null';
-        r_data['dome_id'] = '';
-        return r_data;
-    } else if (!post_data['come_time']) {
-        r_data['status'] = 'error';
-        r_data['string'] = 'come_time is null';
-        r_data['dome_id'] = '';
-        return r_data;
-    } else if (!post_data['come_people']) {
-        r_data['status'] = 'error';
-        r_data['string'] = 'come_people is null';
-        r_data['dome_id'] = '';
-        return r_data;
-    } else if (!post_data['room_type']) {
-        r_data['status'] = 'error';
-        r_data['string'] = 'room_type is null';
-        r_data['dome_id'] = '';
-        return r_data;
-    } else{
-        if (!post_data['other']) {
-            post_data['other'] = null;
-        }
-        r_data['status'] = 'success';
-        return r_data;
-    }*/
 }
