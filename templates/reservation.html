@@ -24,35 +24,6 @@
             {% else %}
                 postData['user_status'] = null;
             {% endif %}
-
-            // user_name
-            {% if user_name %}
-                postData['user_name'] = '{% print user_name %}';
-            {% else %}
-                postData['user_name'] = null;
-            {% endif %}
-
-            // phone
-            {% if phone %}
-                postData['phone_number'] = '{% print user_name %}';
-            {% else %}
-                postData['phone_number'] = null;
-            {% endif %}
-
-            // come_date
-            postData['come_date']   = null;
-
-            // come_time
-            postData['come_time']   = null;
-
-            // come_people
-            postData['come_people'] = null;
-
-            // room_type
-            postData['room_type']   = null;
-
-
-
         </script>
     </head>
     <body>
