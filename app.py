@@ -7,6 +7,7 @@ from flask import Flask,render_template,request,redirect,url_for
 import makesql
 import requests
 import json
+import base64
 reload(sys)
 sys.setdefaultencoding("utf-8")
 app = Flask(__name__)
@@ -81,8 +82,7 @@ def reservation():
         other = request.form.get("other")
         user_status = request.form.get("user_status")
         vip = "NO"
-    return render_template("reservation.html",open_id='1231231',user_status='is',phone='13012345678')
-'''
+    #return render_template("reservation.html",open_id='1231231',user_status='is',phone='13012345678')
         if str(phone).isdigit() == True and len(str(phone)) == 11:
             seat_message = [open_id,come_date,come_time,int(come_people), other]
             global access_token
@@ -96,7 +96,9 @@ def reservation():
                                        }
                               }  
                     put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
-                    return "ok"
+                    base_msg = open_id + "|" + str(seat_insert)
+                    base_64 =  base64.encodestring(base_msg)
+                    return base_64
                 return "wrong"
             else:
                 user_message = [open_id,phone,user_name,vip]
@@ -110,8 +112,9 @@ def reservation():
                                        }
                               }  
                     put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
-                    print put.text
-                    return seat_insert
+                    base_msg = open_id + "|" + str(seat_insert)
+                    base_64 =  base64.encodestring(base_msg)
+                    return base_64
                 return "wrong"
         select_user = makesql.select_user(open_id)
         if len(select_user) == 0:
@@ -126,7 +129,7 @@ def reservation():
     phone = str(select_user[0][2])
     user_name = str(select_user[0][3])
     return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
-'''
+
 
 @app.route("/vip",methods=["GET","POST"])    #会员
 def vip():
