@@ -116,6 +116,7 @@ def reservation():
                     base_64 =  base64.encodestring(base_msg)
                     return base_64
                 return "wrong"
+    open_id = request.args.get("open_id")
     return render_template("reservation.html",open_id=open_id)
 '''
         select_user = makesql.select_user(open_id)
