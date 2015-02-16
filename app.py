@@ -116,6 +116,8 @@ def reservation():
                     base_64 =  base64.encodestring(base_msg)
                     return base_64
                 return "wrong"
+    return render_template("reservation.html",open_id=open_id)
+'''
         select_user = makesql.select_user(open_id)
         if len(select_user) == 0:
             return render_template("reservation.html",open_id=open_id,user_status="notis")
@@ -129,7 +131,7 @@ def reservation():
     phone = str(select_user[0][2])
     user_name = str(select_user[0][3])
     return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
-
+'''
 
 @app.route("/vip",methods=["GET","POST"])    #会员
 def vip():
@@ -246,6 +248,17 @@ def modify_food():
         imgurl = showline_food[0][0]
         price = showline_food[0][1]
         return render_template("choice_food.html",choice_food=choice_food,imgurl=imgurl,price=price)
+
+@app.route("/select_user")
+def select_user():
+    open_id = request.args.get("open_id")
+    user_msg = makesql.select_user(open_id)
+    if len(user_msg) != 0:
+        phone = user_msg[0][2]
+        user_name = user_msg[0][3]
+        return phone + "|" + user_name
+    else:
+        return None
 
 
 # ---------------------------------------- #
