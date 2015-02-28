@@ -1,10 +1,10 @@
 // add user phone and user_name into input
 $(document).ready(function(){
     if (postData['user_name'] != null) {
-        $('#userName').val(postData['user_name']);
+        $('#user_name').val(postData['user_name']);
     }
     if (postData['phone_number'] != null) {
-        $('#phoneNumber').val(postData['phone_number']);
+        $('#phone_number').val(postData['phone_number']);
     }
     $("input").focus(function(){
         $(this).removeClass("error-input");
@@ -62,8 +62,8 @@ $("#submit_btn").click(function(){
             '/reservation',
             postData,
             function(data){
-                if (data=="ok"){
-                    window.location.href="/";
+                if (data != "wrong"){
+                    window.location.href="/reservation_sure/"+data;
                 }
             }
         );
