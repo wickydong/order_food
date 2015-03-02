@@ -82,8 +82,6 @@ def reservation():
         other = request.form.get("other")
         user_status = request.form.get("user_status")
         vip = "NO"
-    return render_template("reservation.html",open_id='1231231',user_status='is',phone='13012345678', user_name='test')
-'''
         if str(phone).isdigit() == True and len(str(phone)) == 11:
             seat_message = [open_id,come_date,come_time,int(come_people), other]
             global access_token
@@ -118,15 +116,13 @@ def reservation():
                     return base_64
                 return "wrong"
     open_id = request.args.get("open_id")
-    return render_template("reservation.html",open_id=open_id)
+    select_user = makesql.select_user(open_id)
+    if len(select_user) == 0:
+        return render_template("reservation.html",open_id=open_id,user_status="notis")
+    phone = str(select_user[0][2])
+    user_name = str(select_user[0][3])
+    return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
 '''
-'''
-        select_user = makesql.select_user(open_id)
-        if len(select_user) == 0:
-            return render_template("reservation.html",open_id=open_id,user_status="notis")
-        phone = str(select_user[0][2])
-        user_name = str(select_user[0][3])
-        return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
     open_id = request.args.get("open_id")
     select_user = makesql.select_user(open_id)
     if len(select_user) == 0:
@@ -135,6 +131,13 @@ def reservation():
     user_name = str(select_user[0][3])
     return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
 '''
+
+@app.route("/reservation_show")
+def reservation_show():
+    base_64 = request.args.get("base_64")
+    open_id,seat_id = base_64.split("|")
+    print "open_id is " + open_id
+    print "seat_id is " + seat_id   
 
 @app.route("/vip",methods=["GET","POST"])    #会员
 def vip():

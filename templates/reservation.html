@@ -24,7 +24,6 @@
             {% else %}
                 postData['user_status'] = null;
             {% endif %}
-<<<<<<< HEAD
 
             // user_name
             {% if user_name %}
@@ -52,10 +51,6 @@
             // room_type
             postData['room_type']   = null;
 
-
-
-=======
->>>>>>> 79b49caccfd3e239ccc064356bb433e78328a5db
         </script>
     </head>
     <body>
@@ -73,8 +68,8 @@
             <form action="/reservation" method="post" >
                 <div class="time-box">
                     <select class="time-select" name="come_hour" data-shadow="false" data-inline="true" id="come_time_hour">
-                        <option value="00">时</option>
-                        <option value="10">01</option>
+                        <option value="00">{{user_name}}</option>
+                        <option value="10">{{phone}}</option>
                         <option value="10">02</option>
                         <option value="10">03</option>
                         <option value="10">04</option>

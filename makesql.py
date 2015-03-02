@@ -64,6 +64,19 @@ def select_seat():  #查询订座信息
     con.close()
 
 
+def reservation_show(open_id,seat_id):  #展示给用户的订座信息
+    make,con = makesql()
+    try:
+        make.execute("select date_format(come_date,'%%Y-%%m-%%d'),come_time,come_people,\
+                other from reservation where open_id=%s and id=%s" %(open_id,seat_id))
+        fetchall = make.fetchall()
+        return fetchall
+    except Exception,e:
+        return e
+    make.close()
+    con.close()
+
+
 def select_allowseat():  #查询已审核订座信息
     make,con = makesql()
     try:
