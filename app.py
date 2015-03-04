@@ -132,12 +132,14 @@ def reservation():
     return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
 '''
 
-@app.route("/reservation_show")
-def reservation_show():
-    base_64 = request.args.get("base_64")
-    open_id,seat_id = base_64.split("|")
-    print "open_id is " + open_id
-    print "seat_id is " + seat_id   
+@app.route("/reservation_sure/<base_msg>")
+def reservation_sure(base_msg=None):
+    if base_msg == None:
+        return "Your Request Method Is Wrong, Please Go Away."
+    base_64 = base64.decodestring(base_msg).split("|")
+    open_id = base_64[0]
+    reservation_id = base_64[1]
+    return render_template("reservation_sure.html")
 
 @app.route("/vip",methods=["GET","POST"])    #会员
 def vip():
