@@ -138,7 +138,10 @@ def reservation_sure(base_msg=None):
         return "Your Request Method Is Wrong, Please Go Away."
     base_64 = base64.decodestring(base_msg).split("|")
     open_id = base_64[0]
-    reservation_id = base_64[1]
+    seat_id = base_64[1]
+    print seat_id
+    seat_msg = makesql.reservation_show(open_id,seat_id)
+    print seat_msg
     return render_template("reservation_sure.html")
 
 @app.route("/vip",methods=["GET","POST"])    #会员
