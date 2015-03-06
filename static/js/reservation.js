@@ -1,13 +1,5 @@
 // add user phone and user_name into input
 $(document).ready(function(){
-    $.post(
-        '/select_user/?open_id='+postData['open_id'],
-        function(data){
-            console.log(data);
-        }
-    );
-});
-$(document).ready(function(){
     if (postData['user_name'] != null) {
         $('#user_name').val(postData['user_name']);
     }

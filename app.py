@@ -141,8 +141,7 @@ def reservation_sure(base_msg=None):
     seat_id = base_64[1]
     print seat_id
     seat_msg = makesql.reservation_show(open_id,seat_id)
-    print seat_msg
-    return render_template("reservation_sure.html")
+    return render_template("reservation_sure.html",base_64=base_msg,seat_msg=seat_msg)
 
 @app.route("/vip",methods=["GET","POST"])    #会员
 def vip():
