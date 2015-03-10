@@ -119,12 +119,27 @@ def add_food(food_msg):  #修改菜品信息（供后台使用）
 def modify_food(food_msg):  #修改菜品信息（供后台使用）
     make,con = makesql()
     img_url = food_msg[0]
-    food_name = food_msg[1]
-    price = food_msg[2]
+    food_name = food_msg[2]
+    price = food_msg[1]
     print img_url,food_name,price
     try:
         a = make.execute("update food set img_url='%s',price='%s' where food_name='%s'" %(img_url,price,food_name))
         print a
+        con.commit()
+        return "OK"
+    except Exception,e:
+        return e
+    make.close()
+    con.close()
+
+
+def del_food(food_msg):  #删除菜品信息（供后台使用）
+    make,con = makesql()
+    img_url = food_msg[0]
+    food_name = food_msg[2]
+    price = food_msg[1]
+    try:
+        a = make.execute("delete from food where food_name='%s'" % food_name)
         con.commit()
         return "OK"
     except Exception,e:
@@ -153,3 +168,13 @@ def showline_food(food_name):  #展菜品信息（供后台使用）
     make.close()
     con.close()
 
+def user_info():
+    make,con = makesql()
+    try:
+        make.execute("select username,passwd from user_info")
+        fetchall = make.fetchall()
+        return fetchall
+    except Exception,e:
+        return e
+    make.close()
+    con.close()

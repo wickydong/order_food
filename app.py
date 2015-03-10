@@ -3,7 +3,7 @@
 #! author: wickydong
 
 import sys
-from flask import Flask,render_template,request,redirect,url_for
+from flask import Flask,render_template,request,redirect,url_for,session
 import makesql
 import requests
 import json
@@ -175,100 +175,129 @@ def about():
 def getfood():
     food_list = json.dumps(makesql.show_food())
     return food_list
+
+@app.route("/login",methods=["POST","GET"])
+def login():
+    if request.method =="POST":
+        username = request.form["user_name"]
+        passwd = request.form["passwd"]
+        user_info = makesql.user_info()[0]
+        if username == str(user_info[0]) and passwd == str(user_info[1]):
+            session['username'] = username
+            return redirect("http://yoogane.sunzhongwei.com/admin")
+        return "User or PassWord is Wrong"
+    return '''
+        <form action="" method="post">
+            <p><input type="text" name="user_name">
+            <p><input type="password" name="passwd">
+            <p><input type=submit value=Login>
+        </form>
+    '''
+@app.route("/logout")
+def logout():
+    session.pop("username",None)
+    return redirect("http://yoogane.sunzhongwei.com/login")
+            
 @app.route("/admin",methods=["POST","GET"])
 def admin():
-    if request.method == "GET": 
+    if request.method == "GET" and 'username' in session: 
         return render_template("admin.html")
-    modify_type = request.form["modify_type"]
-    if modify_type == "add_food":
-        return render_template("add_food.html") 
-    if modify_type == "modify_food":
-        show_food = makesql.show_food()
-        return render_template("modify_food.html",show_food=show_food) 
-    if modify_type == "del_food":
-        return render_template("del_food.html") 
+    if 'username' in session and request.method == "POST":
+        modify_type = request.form["modify_type"]
+        if modify_type == "add":
+            return render_template("modify_food.html",status="add") 
+        if modify_type == "modify":
+            show_food = makesql.show_food()
+            return render_template("modify_food.html",status="modify",show_food=show_food) 
+        if modify_type == "del":
+            show_food = makesql.show_food()
+            return render_template("modify_food.html",status="del",show_food=show_food) 
+    return "貌似你打开的方式不正确"
 
+@app.route("/modify_food",methods=["POST","GET"])
+def modify_food():
+    if request.method == "POST" and 'username' in session:
+        modify_status = request.form.get("modify_status")
+        img_url = request.form.get("img_url")
+        food_name = request.form.get("food_name")
+        price = request.form.get("price")
+        food_msg = (img_url,food_name,price)
+        choice_food = request.form.get("choice_food")
+        if modify_status == "add":
+            add_food = makesql.add_food(food_msg)
+            if add_food == "OK":
+                return "菜品已添加成功"
+            return "菜品添加失败...ORZ"
+        if modify_status == "modify":
+            modify_food = makesql.modify_food(food_msg)
+            if modify_food == "OK":
+                return "菜品已修改成功"
+            return "菜品修改失败...ORZ"
+        if modify_status == "del":
+            showline_food = makesql.showline_food(choice_food)
+            food_msg = (showline_food[0][0],showline_food[0][1],choice_food)
+            del_food = makesql.del_food(food_msg)
+            if del_food == "OK":
+                return "菜品已删除成功"
+            return "菜品删除失败...ORZ"
+    return "You are wrong"
 @app.route("/review_seat")   #后台显示订座信息
 def review_seat():
-    review_seat = makesql.select_seat()
-    review_allowseat = makesql.select_allowseat()
-    review_list = []
-    allow_list = []
-    if len(review_seat) != 0:
-        for i in review_seat:
-            open_id = i[0]
-            date = i[1]
-            time = i[2]
-            come = i[3]
-            other = i[4]
-            user_sel = makesql.select_user(open_id)
-            phone = user_sel[0][2]
-            name = user_sel[0][3]
-            review_list.append((phone,name,date,time,come,other,open_id))
-    if len(review_allowseat) != 0:
-        for i in review_allowseat:
-            open_id = i[0]
-            date = i[1]
-            time = i[2]
-            come = i[3]
-            other = i[4]
-            user_sel = makesql.select_user(open_id)
-            phone = user_sel[0][2]
-            name = user_sel[0][3]
-            allow_list.append((phone,name,date,time,come,other,open_id))
-    return render_template("review_seat.html",review_list=review_list,\
+    if 'username' in session:
+        review_seat = makesql.select_seat()
+        review_allowseat = makesql.select_allowseat()
+        review_list = []
+        allow_list = []
+        if len(review_seat) != 0:
+            for i in review_seat:
+                open_id = i[0]
+                date = i[1]
+                time = i[2]
+                come = i[3]
+                other = i[4]
+                user_sel = makesql.select_user(open_id)
+                phone = user_sel[0][2]
+                name = user_sel[0][3]
+                review_list.append((phone,name,date,time,come,other,open_id))
+        if len(review_allowseat) != 0:
+            for i in review_allowseat:
+                open_id = i[0]
+                date = i[1]
+                time = i[2]
+                come = i[3]
+                other = i[4]
+                user_sel = makesql.select_user(open_id)
+                phone = user_sel[0][2]
+                name = user_sel[0][3]
+                allow_list.append((phone,name,date,time,come,other,open_id))
+        return render_template("review_seat.html",review_list=review_list,\
                 allow_list=allow_list)
+    return "貌似姿势不对"
 
 @app.route("/review_over")   #审核通过座位
 def review_over():
-    open_id = request.args.get("open_id")
-    date = request.args.get("date")
-    review_back = makesql.seat_allow(open_id,date)
-    print review_back
-    return redirect("http://yoogane.sunzhongwei.com/review_seat")
+    if 'username' in session:
+        open_id = request.args.get("open_id")
+        date = request.args.get("date")
+        review_back = makesql.seat_allow(open_id,date)
+        print review_back
+        return redirect("http://yoogane.sunzhongwei.com/review_seat")
+    return "貌似姿势不对"
 @app.route("/review_change")  #审核修改座位
 def review_change():
     pass
 
-@app.route("/modify_food")
-def modify_food():
-    modify_status = request.args.get("modify_status")
-    img_url = request.args.get("img_url")
-    food_name = request.args.get("food_name")
-    price = request.args.get("price")
-    food_msg = (img_url,food_name,price)
-    choice_food = request.args.get("choice_food")
-    if modify_status == "add_food":
-        add_food = makesql.add_food(food_msg)
-        if add_food == "OK":
-            return "菜品已添加成功"
-        return "菜品添加失败...ORZ"
-    if modify_status == "modify_food":
-        modify_food = makesql.modify_food(food_msg)
-        if modify_food == "OK":
-            return "菜品已修改成功"
-        return "菜品修改失败...ORZ"
-    if modify_status == "del_food":
-        del_food = makesql.del_food(food_msg)
-        if del_food == "OK":
-            return "菜品已删除成功"
-        return "菜品删除失败...ORZ"
-    if modify_status == "choice_food":
-        showline_food = makesql.showline_food(choice_food)
-        imgurl = showline_food[0][0]
-        price = showline_food[0][1]
-        return render_template("choice_food.html",choice_food=choice_food,imgurl=imgurl,price=price)
 
-@app.route("/select_user")
-def select_user():
-    open_id = request.args.get("open_id")
-    user_msg = makesql.select_user(open_id)
-    if len(user_msg) != 0:
-        phone = user_msg[0][2]
-        user_name = user_msg[0][3]
-        return phone + "|" + user_name
-    else:
-        return None
+#@app.route("/select_user")
+#def select_user():
+#    open_id = request.args.get("open_id")
+#    user_msg = makesql.select_user(open_id)
+#    if len(user_msg) != 0:
+#        phone = user_msg[0][2]
+#        user_name = user_msg[0][3]
+#        return phone + "|" + user_name
+#    else:
+#        return None
 
 
 # ---------------------------------------- #
@@ -317,6 +346,7 @@ def access_token():
     access_token = request.args.get("access_token")
     return "ok"
 
+app.secret_key = "\x11\x93}\xdd\xb1\xdd\x19\x88s\xde\x13\n9t\x12\x07\xfe\xf3*\xf7\xe1\x0fVj"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",debug=True)
