@@ -84,6 +84,7 @@ def reservation():
         vip = "NO"
         if str(phone).isdigit() == True and len(str(phone)) == 11:
             seat_message = [open_id,come_date,come_time,int(come_people), other]
+            print seat_message
             global access_token
             if user_status == "is":
                 seat_insert = makesql.insert_seat(seat_message)
@@ -98,6 +99,7 @@ def reservation():
                     base_msg = open_id + "|" + str(seat_insert)
                     base_64 =  base64.encodestring(base_msg)
                     return base_64
+                print seat_insert
                 return "wrong"
             else:
                 user_message = [open_id,phone,user_name,vip]
@@ -212,7 +214,7 @@ def admin():
         if modify_type == "del":
             show_food = makesql.show_food()
             return render_template("modify_food.html",status="del",show_food=show_food) 
-    return "貌似你打开的方式不正确"
+    return redirect("http://yoogane.sunzhongwei.com/login")
 
 @app.route("/modify_food",methods=["POST","GET"])
 def modify_food():
