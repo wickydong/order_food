@@ -1,5 +1,7 @@
 #! /usr/bin/python
 # -*-coding:utf-8 -*-
+# author: WickyDong
+# mail: i@sihaizi.com
 import requests
 import json
 

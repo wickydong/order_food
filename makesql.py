@@ -7,6 +7,7 @@ date = date.today()
 def makesql():  #初始化数据库
     con =MySQLdb.connect(host="localhost",user="root",passwd="root",\
             db="order_food",charset="utf8")
+    con.autocommit(True)
     cur = con.cursor()
     do = [cur,con]
     return do
