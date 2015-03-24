@@ -42,6 +42,7 @@ def select_user(open_id):  #查询用户信息
     make,con = makesql()
     try:
         make.execute("select * from user where open_id=%s",open_id)
+        con.commit()
         fetchall = make.fetchall()
         return fetchall
     except Exception,e:
