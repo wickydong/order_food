@@ -1,0 +1,52 @@
+.food-list {
+  margin: 5px 0px 0px 0px;
+  padding: 0px;
+}
+.food-list li {
+  display: box;
+  display: -webkit-box;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  list-style:none;
+  overflow: hidden;
+}
+.food-list li > * {
+  padding-left: 5px;
+  padding-right: 5px;
+  display: block;
+  box-flex: 1;
+  -webkit-box-flex: 1;
+}
+.food-list a {
+  float: right;
+  color: #777;
+  font-size: 20px;
+  padding: 5px;
+  text-decoration: none;
+}
+.list-img img{
+  margin:0px auto;
+  display: block;
+  max-width: 100px;
+}
+.list-foodname p {
+  text-align: center;
+  color: #777;
+}
+.food-name {
+}
+.food-money {
+  display: none;
+}
+.list-btn {
+  min-width: 30%;
+}
+.sub-food-num {
+  display:none;
+}
+.sum-food-num {
+  display:none;
+}
+.add-food-num {
+}
