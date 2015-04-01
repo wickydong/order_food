@@ -25,6 +25,17 @@ def insert_seat(position_message):  #插入用户订座数据
     make.close()
     con.close()
 
+def insert_food(food_msg):
+    make,con = makesql()
+    try:
+        make.execute("insert into reservation (open_id,money,food) values(%s,%s,%s)",food_msg)
+        insert_id = int(con.insert_id())
+        con.commit()
+        return insert_id
+    except Exception,e:
+        return 3
+    make.close()
+    con.close()
 def insert_user(user_message):   #插入用户信息数据
     print user_message
     make,con = makesql()

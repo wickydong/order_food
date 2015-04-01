@@ -47,10 +47,14 @@ def takeout():
 def order():
     if request.method == "GET":
         open_id = request.args.get("open_id")
-        come_from = request.args.get("come_from")
-        return render_template("order.html",open_id=open_id)
+        base_64 = request.args.get("base_64")
+        if base_64 == None and open_id != None:
+            return render_template("order.html",open_id=open_id)
+        elif base_64 != None:
+            return render_template("order.html",base_64=base_64)
     order_list = str(request.form.getlist("dishes")[0]).split(",")
     open_id = request.form.get("open_id")
+    base_64 = request.form.get("base_64")
     a = 0
     order = []
     food_list = []
@@ -62,13 +66,27 @@ def order():
         elif a == 3:
             food_list.append(i)
             order.append(food_list)
+            print order
             food_list = []
             a = 0
-    money = 0            
+    money = 0
+    food = ""       
     for o in order:
         money = int(o[0]) * float(o[2]) + money
-    print money
-    return "ok"
+        food = food + o[1] + "|"
+    if base_64 != None:
+        base_64 = base64.decodestring(base_64).split("|")
+        open_id = base_64[0]
+        seat_id = base_64[1]
+        #update mysql reservation
+    elif open_id != None:
+        food_msg = (open_id,money,food)
+        insert_id = makesql.insert_food(food_msg)
+        if type(insert_id) == int and insert_id > 0:
+            base_msg = open_id + "|" + str(insert_id)
+            base_64 = base64.encodestring(base_msg)
+            return base_64
+        return insert_id
 
 @app.route("/reservation",methods=["POST","GET"])  #订座
 def reservation():
