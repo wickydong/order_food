@@ -22,26 +22,97 @@ reservation_data = {"appid": "wx51ae0018262ad036",
 #               #用戶管理#                 #
 # ---------------------------------------- #
 
-@app.route("/takeout")   #外卖
+@app.route("/takeout",methods=["GET","POST"])   #外卖
 def takeout():
+    if request.method == "GET":
+        open_id = request.args.get("open_id")
+        return render_template("takeout.html",open_id=open_id)
+    print "ok"
+    order_list = str(request.form.getlist("dishes")[0]).split(",")
+    open_id = request.form.get("open_id")
+    a = 0
+    order = []
+    food_list = []
+    for i in order_list:
+        i = str(i).strip("[").strip("\"").strip("]")
+        a += 1
+        if a < 3:
+            food_list.append(i)
+        elif a == 3:
+            food_list.append(i)
+            order.append(food_list)
+            food_list = []
+            a = 0
+    money = 0
+    food = ""       
+    for o in order:
+        money = int(o[0]) * float(o[2]) + money
+        food = food + o[1] + "|"
+    food_msg = (open_id,money,food)
+    insert_id = makesql.insert_takeout(food_msg)
+    if type(insert_id) == int and insert_id > 0:
+        base_msg = open_id + "|" + str(insert_id)
+        base_64 = base64.encodestring(base_msg)
+        print base_msg,base_64
+        return base_64
+    return insert_id
+
+
+@app.route("/takeout_user",methods=["POST","GET"])  #外卖信息
+def takeout_user():
     if request.method == "POST":
-        open_id = request.form.get("open_id")
+        base_64 = request.form.get("base_64")
         phone = request.form.get("phone_number",default="")
         user_name = request.form.get("user_name",default="")
         come_date = request.form.get("come_date",default="")
         come_time = request.form.get("come_time",default="")
         come_people = request.form.get("come_people",default="")
         other = request.form.get("other")
-        return render_template("choice_seat.html",open_id=open_id,\
-               phone=phone,user_name=user_name,come_date=come_date,\
-               come_time=come_time,come_people=come_people,other=other)
-    open_id = request.args.get("open_id")
+        user_status = request.form.get("user_status")
+        vip = "NO"
+        base_64 = base64.decodestring(base_64).split("|")
+        open_id = base_64[0]
+        takeout_id = base_64[1]
+        if str(phone).isdigit() == True and len(str(phone)) == 11:
+            takeout_message = [come_date,come_time,int(come_people), other,open_id,takeout_id]
+            print takeout_message
+            global access_token
+            if user_status == "is":
+                takeout_update = makesql.update_takeout(takeout_message)
+                if takeout_update == "ok":
+                    put_msg = {"touser": open_id,
+                               "msgtype": "text",
+                               "text": {
+                                    "content":"Your reservation is ok,Please wait a moment"
+                                       }
+                              }  
+                    put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
+                    return base_64
+                print takeout_update
+                return "wrong"
+            else:
+                user_message = [open_id,phone,user_name,vip]
+                user_insert = makesql.insert_user(user_message)
+                takeout_update = makesql.update_takeout(takeout_message)
+                if takeout_update == "ok"  and user_insert > 0:
+                    put_msg = {"touser": open_id,
+                               "msgtype": "text",
+                               "text": {
+                                    "content":"Your reservation is ok,Please wait a moment"
+                                       }
+                              }  
+                    put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
+                    return base_64
+                return "wrong"
+    base_64 = request.args.get("base_64")
+    base_64 = base64.decodestring(base_64).split("|")
+    open_id = base_64[0]
     select_user = makesql.select_user(open_id)
     if len(select_user) == 0:
-        return "您还没有成为会员"
+        return render_template("takeout_user.html",open_id=open_id,user_status="notis",base_64=base_64)
     phone = str(select_user[0][2])
     user_name = str(select_user[0][3])
-    return str(open_id + " " + phone)
+    return render_template("takeout_user.html",phone=phone,user_name=user_name,user_status="is",base_64=base_64)
 
 @app.route("/order",methods=["GET","POST"])   #订餐页
 def order():
@@ -66,7 +137,6 @@ def order():
         elif a == 3:
             food_list.append(i)
             order.append(food_list)
-            print order
             food_list = []
             a = 0
     money = 0
@@ -74,6 +144,9 @@ def order():
     for o in order:
         money = int(o[0]) * float(o[2]) + money
         food = food + o[1] + "|"
+    print money,food
+    return "ok"
+    """
     if base_64 != None:
         base_64 = base64.decodestring(base_64).split("|")
         open_id = base_64[0]
@@ -87,7 +160,7 @@ def order():
             base_64 = base64.encodestring(base_msg)
             return base_64
         return insert_id
-
+    """
 @app.route("/reservation",methods=["POST","GET"])  #订座
 def reservation():
     if request.method == "POST":
@@ -369,4 +442,4 @@ def access_token():
 app.secret_key = "\x11\x93}\xdd\xb1\xdd\x19\x88s\xde\x13\n9t\x12\x07\xfe\xf3*\xf7\xe1\x0fVj"
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",debug=True)
+    app.run(host="0.0.0.0")

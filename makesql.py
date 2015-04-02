@@ -20,12 +20,40 @@ def insert_seat(position_message):  #插入用户订座数据
         insert_id = int(con.insert_id())
         con.commit()
         return insert_id
+    except exception,e:
+        return e
+    make.close()
+    con.close()
+
+def insert_takeout(food_msg): #插入外卖菜品数据
+    make,con = makesql()
+    try:
+        make.execute("insert into takeout (open_id,money,food) values(%s,%s,%s)",food_msg)
+        insert_id = int(con.insert_id())
+        con.commit()
+        return insert_id
     except Exception,e:
         return e
     make.close()
     con.close()
 
-def insert_food(food_msg):
+def update_takeout(takeout):  #更新外卖表数据
+    open_id = takeout[0]
+    takeout_id = takeout[1]
+    make,con = makesql()
+    try:
+        make.execute("update takeout set come_date='%s',come_time='%s',come_people='%s',other='%s' where open_id='%s' and id='%s'",takeout)
+        #insert_id = int(con.insert_id())
+        con.commit()
+        return "ok"
+    except exception,e:
+        return e
+    make.close()
+    con.close()
+    
+
+
+def insert_food(food_msg):  #插入订餐菜品数据
     make,con = makesql()
     try:
         make.execute("insert into reservation (open_id,money,food) values(%s,%s,%s)",food_msg)
@@ -33,7 +61,7 @@ def insert_food(food_msg):
         con.commit()
         return insert_id
     except Exception,e:
-        return 3
+        return e
     make.close()
     con.close()
 def insert_user(user_message):   #插入用户信息数据
