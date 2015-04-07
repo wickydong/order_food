@@ -75,7 +75,7 @@ $("#submit_btn").click(function(){
         "/order_food",
         {'dishes':JSON.stringify(postFood),'open_id':open_id},
         function(data){
-          window.location.href='/reservation?base64='+data;
+          window.location.href='/reservation?base_64='+data;
         }
       );
     }
@@ -84,7 +84,7 @@ $("#submit_btn").click(function(){
           "/takeout",
           {'dishes':JSON.stringify(postFood),'open_id':open_id},
           function(data){
-            window.location.href='/takeout_user?base64='+data;
+            window.location.href='/takeout_user?base_64='+data;
           }
         );
     }
