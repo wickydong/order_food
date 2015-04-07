@@ -70,13 +70,24 @@ $("#submit_btn").click(function(){
         postFood.push(foodMoney[x]);
       }
     }
-    $.post(
-      "/order",
-      {'dishes':JSON.stringify(postFood),'open_id':open_id},
-      function(data){
-        console.log(data);
-      }
-    );
+    if (c_from == 'order') {
+      $.post(
+        "/order_food",
+        {'dishes':JSON.stringify(postFood),'open_id':open_id},
+        function(data){
+          window.location.href='／takeout_html/'+data;
+        }
+      );
+    }
+    if (c_from == 'takeout') {
+      $.post(
+          "/takeout",
+          {'dishes':JSON.stringify(postFood),'open_id':open_id},
+          function(data){
+            window.location.href='/reservation/'+data;
+          }
+        );
+    }
 });
 var varifty = function(post_data){
     console.log(post_data);
