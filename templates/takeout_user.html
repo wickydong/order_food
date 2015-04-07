@@ -1,0 +1,112 @@
+<html>
+    <head>
+        <title>外卖</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" type="text/css" href="/static/flat-ui-style/jquery.mobile.flatui.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+        <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="/static/jquery_mobile/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript">
+            var postData = {};
+
+            // open_id
+            {% if open_id %}
+                postData['open_id'] = '{% print open_id %}';
+            {% else %}
+                postData['open_id'] = null;
+            {% endif %}
+
+            // user_status
+            {% if user_status %}
+                postData['user_status'] = '{% print user_status %}';
+            {% else %}
+                postData['user_status'] = null;
+            {% endif %}
+
+            // user_name
+            {% if user_name %}
+                postData['user_name'] = '{% print user_name %}';
+            {% else %}
+                postData['user_name'] = null;
+            {% endif %}
+
+            // phone
+            {% if phone %}
+                postData['phone_number'] = '{% print phone %}';
+            {% else %}
+                postData['phone_number'] = null;
+            {% endif %}
+
+        </script>
+    </head>
+    <body>
+    <div data-role="page" id="pageone">
+        <div data-role="header">
+        </div>
+        <div data-role="navbar">
+            <ul>
+                <li class="date"><a href="#">今天</a></li>
+                <li class="date"><a href="#">明天</a></li>
+                <li class="date"><a href="#">后天</a></li>
+            </ul>
+        </div>
+        <div data-role="content">
+            <form action="/reservation" method="post" >
+                <div class="time-box">
+                    <select class="time-select" name="come_hour" data-shadow="false" data-inline="true" id="come_time_hour">
+                        <option value="00">时</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                    </select>
+                    <select name="come_minute" data-shadow="false" data-inline="true" id="come_time_minute">
+                        <option value="00">分</option>
+                        <option value="00">00</option>
+                        <option value="15">15</option>
+                        <option value="30">30</option>
+                        <option value="45">45</option>
+                    </select>
+                </div>
+
+                <input type="text" name="user_name" data-shadow="false" placeholder="姓名" id="user_name">
+
+                <input type="text" name="phone_number" data-shadow="false" placeholder="手机号" id="phone_number">
+
+                <select name="come_people" data-shadow="false" id="come_people">
+                    <option value="0">到店人数</option>
+                    <option value="1">1人</option>
+                    <option value="2">2人</option>
+                    <option value="3">3人</option>
+                    <option value="4">4人</option>
+                    <option value="5">5人</option>
+                </select>
+
+                <select  name="room_type" data-shadow="false" id="room_type">
+                    <option value="0">房间类型</option>
+                    <option value="1">单人</option>
+                    <option value="2">双人</option>
+                    <option value="3">三人</option>
+                    <option value="4">四人</option>
+                    <option value="5">五人</option>
+                </select>
+
+                <input type="text" name="other" data-shadow="false" placeholder="备注(可不填)" id="otherContent"/>
+
+                <button type="button" data-shadow="false" id="submit_btn">确认提交</button>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/js/takeout_user.js"></script>
+    </body>
+</html>

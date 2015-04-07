@@ -42,10 +42,12 @@ $("#submit_btn").click(function(){
     // get data
     postData['user_name'] = $("#user_name").val();
     postData['phone_number'] = $("#phone_number").val();
+    postData['come_people'] = $("#come_people").val();
+    postData['room_type'] = $("#room_type").val();
     postData['other'] = $("#otherContent").val();
 
     var r_varify = varifty(postData);
-    var errorList = ['user_name', 'phone_number'];
+    var errorList = ['user_name', 'phone_number', 'come_people', 'room_type'];
     if (r_varify['status'] == 'error') {
         console.log(r_varify['string']);
 	console.log(r_varify['dome_id']);
@@ -57,11 +59,11 @@ $("#submit_btn").click(function(){
         }
     } else if (r_varify['status'] == 'success') {
         $.post(
-            '/takeout_user',
+            '/reservation',
             postData,
             function(data){
                 if (data != "wrong"){
-                    window.location.href="/takeout_user/"+data;
+                    window.location.href="/reservation_sure/"+data;
                 }
             }
         );
@@ -70,12 +72,14 @@ $("#submit_btn").click(function(){
 var varifty = function(post_data){
     console.log(post_data);
     var list = [
-            'base_64',
+            'open_id',
             'user_status',
             'user_name',
             'phone_number',
             'come_date',
-            'come_time'
+            'come_time',
+            'come_people',
+            'room_type'
         ];
     var r_data = {};
 
