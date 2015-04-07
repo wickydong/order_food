@@ -22,11 +22,8 @@ reservation_data = {"appid": "wx51ae0018262ad036",
 #               #用戶管理#                 #
 # ---------------------------------------- #
 
-@app.route("/takeout",methods=["GET","POST"])   #外卖
+@app.route("/takeout",methods=["POST"])   #外卖
 def takeout():
-    if request.method == "GET":
-        open_id = request.args.get("open_id")
-        return render_template("takeout.html",open_id=open_id)
     order_list = str(request.form.getlist("dishes")[0]).split(",")
     open_id = request.form.get("open_id")
     a = 0
@@ -112,20 +109,20 @@ def takeout_user():
     user_name = str(select_user[0][3])
     return render_template("takeout_user.html",phone=phone,user_name=user_name,user_status="is",base_64=base_64)
 
-@app.route("/order",methods=["GET","POST"])   #订餐页
+@app.route("/order",methods=["GET"])   #订餐页
 def order():
-    if request.method == "GET":
-        open_id = request.args.get("open_id")
-        if open_id != None:
-        #base_64 = request.args.get("base_64")
-        #if base_64 == None and open_id != None:
-            return render_template("order.html",open_id=open_id)
-        #elif base_64 != None:
-        #    return render_template("order.html",base_64=base_64)
+    open_id = request.args.get("open_id")
+    c_from = request.args.get("c_from")
+    if c_from == "order" or c_from == "takeout":
+        return render_template("order.html",open_id=open_id,c_from=c_from)
+    else:
+        return "宝贝，不要胡闹"
+
+@app.route("/order_food",method=["POST"])
+def order_food():
     order_list = str(request.form.getlist("dishes")[0]).split(",")
     open_id = request.form.get("open_id")
     if order_list != None and open_id != None:
-    #base_64 = request.form.get("base_64")
         a = 0
         order = []
         food_list = []
@@ -144,20 +141,14 @@ def order():
         for o in order:
             money = int(o[0]) * float(o[2]) + money
             food = food + o[1] + "|"
-#        if base_64 != None:
-#            base_64 = base64.decodestring(base_64).split("|")
-#            open_id = base_64[0]
-#            seat_id = base_64[1]
-            #update mysql reservation
         food_msg = (open_id,money,food)
-        print food_msg
         insert_id = makesql.insert_food(food_msg)
         if type(insert_id) == int and insert_id > 0:
             base_msg = open_id + "|" + str(insert_id)
             base_64 = base64.encodestring(base_msg)
             print base_64
             return base_64
-        return insert_id
+        return insert_id 
 @app.route("/reservation",methods=["POST","GET"])  #订座
 def reservation():
     if request.method == "POST":
@@ -420,9 +411,9 @@ def wechat_sure():
         if str(action) == "vip":
             return redirect("http://yoogane.sunzhongwei.com/vip?open_id=%s" % open_id)
         if str(action) == "takeout":
-            return redirect("http://yoogane.sunzhongwei.com/takeout?open_id=%s" % open_id)
+            return redirect("http://yoogane.sunzhongwei.com/order?open_id=%s&c_from=takeout" % open_id)
         if str(action) == "order":
-            return redirect("http://yoogane.sunzhongwei.com/order?open_id=%s" % open_id)
+            return redirect("http://yoogane.sunzhongwei.com/order?open_id=%s&c_from=order" % open_id)
         if str(action) == "about":
             return redirect("http://yoogane.sunzhongwei.com/about?open_id=%s" % open_id)
     else:
