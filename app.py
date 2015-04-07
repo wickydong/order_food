@@ -118,7 +118,7 @@ def order():
     else:
         return "宝贝，不要胡闹"
 
-@app.route("/order_food",method=["POST"])
+@app.route("/order_food",methods=["POST"])
 def order_food():
     order_list = str(request.form.getlist("dishes")[0]).split(",")
     open_id = request.form.get("open_id")
