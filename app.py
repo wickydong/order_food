@@ -196,7 +196,9 @@ def reservation():
                     base_64 =  base64.encodestring(base_msg)
                     return base_64
                 return "wrong"
-    open_id = request.args.get("open_id")
+    base_64 = request.args.get("base_64")
+    base_64 = base64.decodestring(base_64).split("|")
+    open_id = base_64[0]
     select_user = makesql.select_user(open_id)
     if len(select_user) == 0:
         return render_template("reservation.html",open_id=open_id,user_status="notis")
