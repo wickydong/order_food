@@ -27,7 +27,6 @@ def takeout():
     if request.method == "GET":
         open_id = request.args.get("open_id")
         return render_template("takeout.html",open_id=open_id)
-    print "ok"
     order_list = str(request.form.getlist("dishes")[0]).split(",")
     open_id = request.form.get("open_id")
     a = 0
@@ -66,7 +65,6 @@ def takeout_user():
         user_name = request.form.get("user_name",default="")
         come_date = request.form.get("come_date",default="")
         come_time = request.form.get("come_time",default="")
-        come_people = request.form.get("come_people",default="")
         other = request.form.get("other")
         user_status = request.form.get("user_status")
         vip = "NO"
@@ -74,7 +72,7 @@ def takeout_user():
         open_id = base_64[0]
         takeout_id = base_64[1]
         if str(phone).isdigit() == True and len(str(phone)) == 11:
-            takeout_message = [come_date,come_time,int(come_people), other,open_id,takeout_id]
+            takeout_message = [come_date,come_time,other,open_id,takeout_id]
             print takeout_message
             global access_token
             if user_status == "is":
@@ -118,49 +116,48 @@ def takeout_user():
 def order():
     if request.method == "GET":
         open_id = request.args.get("open_id")
-        base_64 = request.args.get("base_64")
-        if base_64 == None and open_id != None:
+        if open_id != None:
+        #base_64 = request.args.get("base_64")
+        #if base_64 == None and open_id != None:
             return render_template("order.html",open_id=open_id)
-        elif base_64 != None:
-            return render_template("order.html",base_64=base_64)
+        #elif base_64 != None:
+        #    return render_template("order.html",base_64=base_64)
     order_list = str(request.form.getlist("dishes")[0]).split(",")
     open_id = request.form.get("open_id")
-    base_64 = request.form.get("base_64")
-    a = 0
-    order = []
-    food_list = []
-    for i in order_list:
-        i = str(i).strip("[").strip("\"").strip("]")
-        a += 1
-        if a < 3:
-            food_list.append(i)
-        elif a == 3:
-            food_list.append(i)
-            order.append(food_list)
-            food_list = []
-            a = 0
-    money = 0
-    food = ""       
-    for o in order:
-        money = int(o[0]) * float(o[2]) + money
-        food = food + o[1] + "|"
-    print money,food
-    return "ok"
-    """
-    if base_64 != None:
-        base_64 = base64.decodestring(base_64).split("|")
-        open_id = base_64[0]
-        seat_id = base_64[1]
-        #update mysql reservation
-    elif open_id != None:
+    if order_list != None and open_id != None:
+    #base_64 = request.form.get("base_64")
+        a = 0
+        order = []
+        food_list = []
+        for i in order_list:
+            i = str(i).strip("[").strip("\"").strip("]")
+            a += 1
+            if a < 3:
+                food_list.append(i)
+            elif a == 3:
+                food_list.append(i)
+                order.append(food_list)
+                food_list = []
+                a = 0
+        money = 0
+        food = ""       
+        for o in order:
+            money = int(o[0]) * float(o[2]) + money
+            food = food + o[1] + "|"
+#        if base_64 != None:
+#            base_64 = base64.decodestring(base_64).split("|")
+#            open_id = base_64[0]
+#            seat_id = base_64[1]
+            #update mysql reservation
         food_msg = (open_id,money,food)
+        print food_msg
         insert_id = makesql.insert_food(food_msg)
         if type(insert_id) == int and insert_id > 0:
             base_msg = open_id + "|" + str(insert_id)
             base_64 = base64.encodestring(base_msg)
+            print base_64
             return base_64
         return insert_id
-    """
 @app.route("/reservation",methods=["POST","GET"])  #订座
 def reservation():
     if request.method == "POST":

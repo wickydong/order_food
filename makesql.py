@@ -38,11 +38,9 @@ def insert_takeout(food_msg): #插入外卖菜品数据
     con.close()
 
 def update_takeout(takeout):  #更新外卖表数据
-    open_id = takeout[0]
-    takeout_id = takeout[1]
     make,con = makesql()
     try:
-        make.execute("update takeout set come_date='%s',come_time='%s',come_people='%s',other='%s' where open_id='%s' and id='%s'",takeout)
+        make.execute("update takeout set come_date='%s',come_time='%s',other='%s' where open_id='%s' and id='%s'",takeout)
         #insert_id = int(con.insert_id())
         con.commit()
         return "ok"
