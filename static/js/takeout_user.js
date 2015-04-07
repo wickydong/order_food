@@ -78,8 +78,6 @@ var varifty = function(post_data){
             'phone_number',
             'come_date',
             'come_time',
-            'come_people',
-            'room_type'
         ];
     var r_data = {};
 
