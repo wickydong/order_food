@@ -14,7 +14,7 @@
             {% if base_64 %}
                 postData['base_64'] = '{% print base_64 %}';
             {% else %}
-                postData['open_id'] = null;
+                postData['base_64'] = null;
             {% endif %}
 
             // user_status

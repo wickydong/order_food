@@ -11,10 +11,10 @@
             var postData = {};
 
             // open_id
-            {% if open_id %}
-                postData['open_id'] = '{% print open_id %}';
+            {% if base64 %}
+                postData['base64'] = '{% print base64 %}';
             {% else %}
-                postData['open_id'] = null;
+                postData['base64'] = null;
             {% endif %}
 
             // user_status
