@@ -104,7 +104,7 @@ def takeout_user():
     open_id = base_64[0]
     select_user = makesql.select_user(open_id)
     if len(select_user) == 0:
-        return render_template("takeout_user.html",open_id=open_id,user_status="notis",base_64=base_64)
+        return render_template("takeout_user.html",user_status="notis",base_64=base_64)
     phone = str(select_user[0][2])
     user_name = str(select_user[0][3])
     return render_template("takeout_user.html",phone=phone,user_name=user_name,user_status="is",base_64=base_64)
