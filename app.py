@@ -152,6 +152,60 @@ def order_food():
 @app.route("/reservation",methods=["POST","GET"])  #订座
 def reservation():
     if request.method == "POST":
+        base_64 = request.form.get("base_64")
+        phone = request.form.get("phone_number",default="")
+        user_name = request.form.get("user_name",default="")
+        come_date = request.form.get("come_date",default="")
+        come_time = request.form.get("come_time",default="")
+        come_people = request.form.get("come_people",default="")
+        other = request.form.get("other")
+        user_status = request.form.get("user_status")
+        vip = "NO"
+        base_64 = base64.decodestring(base_64).split("|")
+        open_id = base_64[0]
+        reservation_id = base_64[1]
+        if str(phone).isdigit() == True and len(str(phone)) == 11:
+            reservation_message = [come_date,come_time,come_people,other,open_id,reservation_id]
+            print reservation_message
+            global access_token
+            if user_status == "is":
+                takeout_update = makesql.update_reservation(reservation_message)
+                if reservation_update == "ok":
+                    put_msg = {"touser": open_id,
+                               "msgtype": "text",
+                               "text": {
+                                    "content":"Your reservation is ok,Please wait a moment"
+                                       }
+                              }  
+                    put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
+                    return base_64
+                print reservation_update
+                return "wrong"
+            else:
+                user_message = [open_id,phone,user_name,vip]
+                user_insert = makesql.insert_user(user_message)
+                reservation_update = makesql.update_reservation(reservation_message)
+                if reservation_update == "ok"  and user_insert > 0:
+                    put_msg = {"touser": open_id,
+                               "msgtype": "text",
+                               "text": {
+                                    "content":"Your reservation is ok,Please wait a moment"
+                                       }
+                              }  
+                    put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
+                    return base_64
+                return "wrong"
+    base_64 = request.args.get("base_64")
+    base_64 = base64.decodestring(base_64).split("|")
+    open_id = base_64[0]
+    select_user = makesql.select_user(open_id)
+    if len(select_user) == 0:
+        return render_template("reservation.html",base_64=base_64,user_status="notis")
+    phone = str(select_user[0][2])
+    user_name = str(select_user[0][3])
+    return render_template("reservation.html",base_64=base_64,phone=phone,user_name=user_name,user_status="is")
+"""
+    if request.method == "POST":
         open_id = request.form.get("open_id")
         phone = request.form.get("phone_number",default="")
         user_name = request.form.get("user_name",default="")
@@ -196,15 +250,7 @@ def reservation():
                     base_64 =  base64.encodestring(base_msg)
                     return base_64
                 return "wrong"
-    base_64 = request.args.get("base_64")
-    base_64 = base64.decodestring(base_64).split("|")
-    open_id = base_64[0]
-    select_user = makesql.select_user(open_id)
-    if len(select_user) == 0:
-        return render_template("reservation.html",open_id=open_id,user_status="notis")
-    phone = str(select_user[0][2])
-    user_name = str(select_user[0][3])
-    return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
+"""
 '''
     open_id = request.args.get("open_id")
     select_user = makesql.select_user(open_id)
@@ -419,8 +465,8 @@ def wechat_sure():
         if str(action) == "about":
             return redirect("http://yoogane.sunzhongwei.com/about?open_id=%s" % open_id)
     else:
-        print request.data
-        return request.data
+        #print request.data
+        return "OK"
 
 access_token = ""
 @app.route("/access_token")

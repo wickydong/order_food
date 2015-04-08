@@ -72,7 +72,7 @@ $("#submit_btn").click(function(){
 var varifty = function(post_data){
     console.log(post_data);
     var list = [
-            'open_id',
+            'base_64',
             'user_status',
             'user_name',
             'phone_number',

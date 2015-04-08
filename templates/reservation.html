@@ -11,8 +11,8 @@
             var postData = {};
 
             // open_id
-            {% if open_id %}
-                postData['open_id'] = '{% print open_id %}';
+            {% if base_64 %}
+                postData['base_64'] = '{% print base_64 %}';
             {% else %}
                 postData['open_id'] = null;
             {% endif %}
