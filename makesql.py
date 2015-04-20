@@ -14,14 +14,14 @@ def makesql():  #初始化数据库
 
 def update_reservation(position_message):  #插入用户订座数据
     make,con = makesql()
-    print position_message
     try:
         #make.execute("insert into reservation (open_id,come_date,come_time,come_people,other) values (%s,%s,%s,%s,%s)",position_message)
-        make.execute("update reservation set come_date='%s',come_time='%s',come_people='%s',other='%s' where open_id='%s' and id='%s'",position_message)
+        make.execute("update reservation set come_date=%s,come_time=%s,come_people=%s,other=%s where open_id=%s and id=%s",position_message)
         #insert_id = int(con.insert_id())
         con.commit()
         return "ok"
-    except exception,e:
+    except Exception,e:
+        print e
         return e
     make.close()
     con.close()
@@ -41,7 +41,7 @@ def insert_takeout(food_msg): #插入外卖菜品数据
 def update_takeout(takeout):  #更新外卖表数据
     make,con = makesql()
     try:
-        make.execute("update takeout set come_date='%s',come_time='%s',other='%s' where open_id='%s' and id='%s'",takeout)
+        make.execute("update takeout set come_date=%s,come_time=%s,other=%s where open_id=%s and id=%s",takeout)
         #insert_id = int(con.insert_id())
         con.commit()
         return "ok"

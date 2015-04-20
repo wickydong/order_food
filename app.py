@@ -49,7 +49,6 @@ def takeout():
     if type(insert_id) == int and insert_id > 0:
         base_msg = open_id + "|" + str(insert_id)
         base_64 = base64.encodestring(base_msg)
-        print base_msg,base_64
         return base_64
     return insert_id
 
@@ -65,15 +64,15 @@ def takeout_user():
         other = request.form.get("other")
         user_status = request.form.get("user_status")
         vip = "NO"
-        base_64 = base64.decodestring(base_64).split("|")
-        open_id = base_64[0]
-        takeout_id = base_64[1]
+        base = base64.decodestring(base_64).split("|")
+        open_id = base[0]
+        takeout_id = base[1]
         if str(phone).isdigit() == True and len(str(phone)) == 11:
             takeout_message = [come_date,come_time,other,open_id,takeout_id]
-            print takeout_message
             global access_token
             if user_status == "is":
                 takeout_update = makesql.update_takeout(takeout_message)
+                print takeout_update
                 if takeout_update == "ok":
                     put_msg = {"touser": open_id,
                                "msgtype": "text",
@@ -100,8 +99,8 @@ def takeout_user():
                     return base_64
                 return "wrong"
     base_64 = request.args.get("base_64")
-    base_64 = base64.decodestring(base_64).split("|")
-    open_id = base_64[0]
+    base = base64.decodestring(base_64).split("|")
+    open_id = base[0]
     select_user = makesql.select_user(open_id)
     if len(select_user) == 0:
         return render_template("takeout_user.html",user_status="notis",base_64=base_64)
@@ -153,6 +152,7 @@ def order_food():
 def reservation():
     if request.method == "POST":
         base_64 = request.form.get("base_64")
+        print base_64
         phone = request.form.get("phone_number",default="")
         user_name = request.form.get("user_name",default="")
         come_date = request.form.get("come_date",default="")
@@ -161,15 +161,15 @@ def reservation():
         other = request.form.get("other")
         user_status = request.form.get("user_status")
         vip = "NO"
-        base_64 = base64.decodestring(base_64).split("|")
-        open_id = base_64[0]
-        reservation_id = base_64[1]
+        base = base64.decodestring(base_64).split("|")
+        open_id = base[0]
+        reservation_id = base[1]
         if str(phone).isdigit() == True and len(str(phone)) == 11:
             reservation_message = [come_date,come_time,come_people,other,open_id,reservation_id]
-            print reservation_message
             global access_token
             if user_status == "is":
-                takeout_update = makesql.update_reservation(reservation_message)
+                reservation_update = makesql.update_reservation(reservation_message)
+                print reservation_update
                 if reservation_update == "ok":
                     put_msg = {"touser": open_id,
                                "msgtype": "text",
@@ -185,6 +185,7 @@ def reservation():
                 user_message = [open_id,phone,user_name,vip]
                 user_insert = makesql.insert_user(user_message)
                 reservation_update = makesql.update_reservation(reservation_message)
+                print reservation_update
                 if reservation_update == "ok"  and user_insert > 0:
                     put_msg = {"touser": open_id,
                                "msgtype": "text",
@@ -194,10 +195,12 @@ def reservation():
                               }  
                     put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
                     return base_64
+                print reservation_update
                 return "wrong"
     base_64 = request.args.get("base_64")
-    base_64 = base64.decodestring(base_64).split("|")
-    open_id = base_64[0]
+    base = base64.decodestring(base_64).split("|")
+    print base
+    open_id = base[0]
     select_user = makesql.select_user(open_id)
     if len(select_user) == 0:
         return render_template("reservation.html",base_64=base_64,user_status="notis")
@@ -272,26 +275,19 @@ def reservation_sure(base_msg=None):
     seat_msg = makesql.reservation_show(open_id,seat_id)
     return render_template("reservation_sure.html",base_64=base_msg,seat_msg=seat_msg)
 
-@app.route("/vip",methods=["GET","POST"])    #会员
+@app.route("/wifi",methods=["GET","POST"])    #会员
 def vip():
-    if request.method == "POST":
-        open_id = request.form.get("open_id")
-        phone = request.form.get("phone_number",default="")
-        user_name = request.form.get("user_name",default="")
-        come_date = request.form.get("come_date",default="")
-        come_time = request.form.get("come_time",default="")
-        come_people = request.form.get("come_people",default="")
-        other = request.form.get("other")
-        return render_template("choice_seat.html",open_id=open_id,\
-               phone=phone,user_name=user_name,come_date=come_date,\
-               come_time=come_time,come_people=come_people,other=other)
     open_id = request.args.get("open_id")
-    select_user = makesql.select_user(open_id)
-    if len(select_user) == 0:
-        return "您还没有成为会员"
-    phone = str(select_user[0][2])
-    user_name = str(select_user[0][3])
-    return str(open_id + " " + phone)
+    if open_id != None:
+        #put_msg = {"touser": open_id,
+        #           "msgtype": "text",
+        #           "text": {"content":"帐号: WX-yoogane\n密码: wolegeca"
+        #                               }
+        #                      }  
+        #put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
+        return "帐号: WX-yoogane\n密码: wolegeca"
+    else:
+        return "wrong"
 
 @app.route("/about")  #关于
 def about():
@@ -456,8 +452,8 @@ def wechat_sure():
         #print type(action)
         if str(action) == "reservation":
             return redirect("http://yoogane.sunzhongwei.com/reservation?open_id=%s" % open_id)
-        if str(action) == "vip":
-            return redirect("http://yoogane.sunzhongwei.com/vip?open_id=%s" % open_id)
+        if str(action) == "wifi":
+            return redirect("http://yoogane.sunzhongwei.com/wifi?open_id=%s" % open_id)
         if str(action) == "takeout":
             return redirect("http://yoogane.sunzhongwei.com/order?open_id=%s&c_from=takeout" % open_id)
         if str(action) == "order":
@@ -478,4 +474,4 @@ def access_token():
 app.secret_key = "\x11\x93}\xdd\xb1\xdd\x19\x88s\xde\x13\n9t\x12\x07\xfe\xf3*\xf7\xe1\x0fVj"
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0",debug=True)

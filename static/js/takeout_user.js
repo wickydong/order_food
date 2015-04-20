@@ -59,11 +59,11 @@ $("#submit_btn").click(function(){
         }
     } else if (r_varify['status'] == 'success') {
         $.post(
-            '/reservation',
+            '/takeout_user',
             postData,
             function(data){
                 if (data != "wrong"){
-                    window.location.href="/reservation_sure/"+data;
+                    window.location.href="/takeout_user/"+data;
                 }
             }
         );
