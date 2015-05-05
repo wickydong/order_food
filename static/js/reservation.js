@@ -43,11 +43,10 @@ $("#submit_btn").click(function(){
     postData['user_name'] = $("#user_name").val();
     postData['phone_number'] = $("#phone_number").val();
     postData['come_people'] = $("#come_people").val();
-    postData['room_type'] = $("#room_type").val();
     postData['other'] = $("#otherContent").val();
 
     var r_varify = varifty(postData);
-    var errorList = ['user_name', 'phone_number', 'come_people', 'room_type'];
+    var errorList = ['user_name', 'phone_number', 'come_people'];
     if (r_varify['status'] == 'error') {
         console.log(r_varify['string']);
 	console.log(r_varify['dome_id']);
