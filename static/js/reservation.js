@@ -48,14 +48,7 @@ $("#submit_btn").click(function(){
     var r_varify = varifty(postData);
     var errorList = ['user_name', 'phone_number', 'come_people'];
     if (r_varify['status'] == 'error') {
-        console.log(r_varify['string']);
-	console.log(r_varify['dome_id']);
-        //if (r_varify['dome_id']) {
-        if($.inArray(r_varify['dome_id'], errorList) >= 0) {
-            $("#"+r_varify['dome_id']).parent().addClass("ui-error");//css('border', '1px solid #f00');
-        } else {
-            alert(r_varify['string']);
-        }
+        alert(r_varify['string']);
     } else if (r_varify['status'] == 'success') {
         $.post(
             '/reservation',
