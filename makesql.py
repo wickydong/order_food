@@ -93,9 +93,7 @@ def select_user(open_id):  #查询用户信息
 def select_seat():  #查询订座信息
     make,con = makesql()
     try:
-        make.execute("select open_id,date_format(come_date,'%%Y-%%m-%%d'),come_time,come_people,\
-                other from reservation where review='pending'\
-                and date_format(come_date,'%%Y-%%m-%%d')=%s",date)
+        make.execute("select open_id,date_format(come_date,'%%Y-%%m-%%d'),come_time,come_people,other from reservation where review='pending' and date_format(come_date,'%%Y-%%m-%%d')=%s",date)
         fetchall = make.fetchall()
         return fetchall
     except Exception,e:

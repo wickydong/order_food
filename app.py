@@ -285,7 +285,8 @@ def vip():
         #                               }
         #                      }  
         #put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
-        return "帐号: WX-yoogane\n密码: wolegeca"
+        #return "帐号: WX-yoogane\n密码: wolegeca"
+        return render_template("wifi.html")
     else:
         return "wrong"
 
