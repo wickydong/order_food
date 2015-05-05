@@ -55,7 +55,7 @@
             <form action="/reservation" method="post" >
                 <div class="time-box">
                     <select class="time-select" name="come_hour" data-shadow="false" data-inline="true" id="come_time_hour">
-                        <option value="00">时</option>
+                        <option value="">时</option>
                         <option value="10">10</option>
                         <option value="11">11</option>
                         <option value="12">12</option>
@@ -71,7 +71,7 @@
                         <option value="22">22</option>
                     </select>
                     <select name="come_minute" data-shadow="false" data-inline="true" id="come_time_minute">
-                        <option value="00">分</option>
+                        <option value="">分</option>
                         <option value="00">00</option>
                         <option value="15">15</option>
                         <option value="30">30</option>
@@ -84,21 +84,12 @@
                 <input type="text" name="phone_number" data-shadow="false" placeholder="手机号" id="phone_number">
 
                 <select name="come_people" data-shadow="false" id="come_people">
-                    <option value="0">到店人数</option>
+                    <option value="">到店人数</option>
                     <option value="1">1人</option>
                     <option value="2">2人</option>
                     <option value="3">3人</option>
                     <option value="4">4人</option>
                     <option value="5">5人</option>
-                </select>
-
-                <select  name="room_type" data-shadow="false" id="room_type">
-                    <option value="0">房间类型</option>
-                    <option value="1">单人</option>
-                    <option value="2">双人</option>
-                    <option value="3">三人</option>
-                    <option value="4">四人</option>
-                    <option value="5">五人</option>
                 </select>
 
                 <input type="text" name="other" data-shadow="false" placeholder="备注(可不填)" id="otherContent"/>
