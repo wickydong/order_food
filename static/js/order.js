@@ -70,6 +70,9 @@ $("#submit_btn").click(function(){
         postFood.push(foodMoney[x]);
       }
     }
+    if (foodMoney == null || foodMoney == "") {
+        return false;
+    }
     if (c_from == 'order') {
       $.post(
         "/order_food",
