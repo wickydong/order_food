@@ -277,6 +277,7 @@ def reservation_sure(base_msg=None):
 
 @app.route("/wifi",methods=["GET","POST"])    #会员
 def vip():
+    phone_type = request.args.get("type")
     open_id = request.args.get("open_id")
     if open_id != None:
         #put_msg = {"touser": open_id,
@@ -286,7 +287,9 @@ def vip():
         #                      }  
         #put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
         #return "帐号: WX-yoogane\n密码: wolegeca"
-        return render_template("wifi.html")
+        if phone_type == "ios":
+            return render_template("wifi.html")
+        return "ok"
     else:
         return "wrong"
 
@@ -437,7 +440,7 @@ def wechat_sure():
     timestamp = request.args.get("timestamp")
     nonce = request.args.get("nonce")
     echostr = request.args.get("echostr")
-    #body = request.data
+    body = request.data
     code = request.args.get("code")
     state = request.args.get("state")
     action = request.args.get("action")
@@ -453,8 +456,10 @@ def wechat_sure():
         #print type(action)
         if str(action) == "reservation":
             return redirect("http://yoogane.sunzhongwei.com/reservation?open_id=%s" % open_id)
-        if str(action) == "wifi":
-            return redirect("http://yoogane.sunzhongwei.com/wifi?open_id=%s" % open_id)
+        if str(action) == "ios":
+            return redirect("http://yoogane.sunzhongwei.com/wifi?type=ios&open_id=%s" % open_id)
+        if str(action) == "android":
+            return redirect("http://yoogane.sunzhongwei.com/wifi?type=andriod&open_id=%s" % open_id)
         if str(action) == "takeout":
             return redirect("http://yoogane.sunzhongwei.com/order?open_id=%s&c_from=takeout" % open_id)
         if str(action) == "order":
@@ -462,8 +467,8 @@ def wechat_sure():
         if str(action) == "about":
             return redirect("http://yoogane.sunzhongwei.com/about?open_id=%s" % open_id)
     else:
-        #print request.data
-        return "OK"
+        print request.data
+        return "ok"
 
 access_token = ""
 @app.route("/access_token")
