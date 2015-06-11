@@ -101,6 +101,17 @@ def select_seat():  #查询订座信息
     make.close()
     con.close()
 
+def show_order(open_id):
+    print open_id
+    make,con=makesql()
+    try:
+        make.execute("select date_format(come_date,'%%Y-%%m-%%d'),come_time,come_people,food,money from reservation where open_id=%s and come_time!='NULL' and money!='0'",open_id)
+        fetchall = make.fetchall()
+        return fetchall
+    except Exception,e:
+        return e
+    make.close()
+    con.close()
 
 def reservation_show(open_id,seat_id):  #展示给用户的订座信息
     make,con = makesql()

@@ -297,6 +297,14 @@ def vip():
 def about():
     pass
 
+@app.route("/my_order")  #我的订单
+def my_order():
+    open_id = request.args.get("open_id")
+    if open_id != None:
+        show_order = makesql.show_order(open_id)
+        return render_template("my_order.html",show_order=show_order)
+    return "别闹"
+
 # ---------------------------------------- #
 #                #后台管理#                #
 # ---------------------------------------- #
@@ -466,6 +474,8 @@ def wechat_sure():
             return redirect("http://yoogane.sunzhongwei.com/order?open_id=%s&c_from=order" % open_id)
         if str(action) == "about":
             return redirect("http://yoogane.sunzhongwei.com/about?open_id=%s" % open_id)
+        if str(action) == "my_order":
+            return redirect("http://yoogane.sunzhongwei.com/my_order?open_id=%s" % open_id)
     else:
         print request.data
         return "ok"
@@ -480,4 +490,4 @@ def access_token():
 app.secret_key = "\x11\x93}\xdd\xb1\xdd\x19\x88s\xde\x13\n9t\x12\x07\xfe\xf3*\xf7\xe1\x0fVj"
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",debug=True)
+    app.run(host="0.0.0.0")#,debug=True)
