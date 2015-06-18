@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>bill list</title>
+	<style type="text/css">
+	html {
+		font-family:"Microsoft Yahei", Tahoma;
+	}
+	.bill-title {
+		text-align:center;
+		color:#777;
+	}
+	.bill-body {
+		
+	}
+	.bill-foot {
+		
+	}
+	.bill-item {
+		width:90%;
+		margin:5px auto;
+	}
+	.bill-item-head {
+		border:1px solid #7bbfea;
+		background:#7bbfea;
+		color:#eee;
+		height:80px;
+	}
+	.bill-item-body {
+		display:none;
+		border:1px solid #ccc;
+		border-top:0px;
+		background:#eee;
+		color:#777;
+		padding:10px 15px;
+	}
+	.bill-item-foot {
+		
+	}
+	em {
+		display:inline-block;
+		font-size:20px;
+		font-style:normal;
+		line-height:80px;
+	}
+	.bill-params-id {
+		border-right:2px dashed #eee;
+		text-align:left;
+		text-indent:2em;
+		width:120px;
+	}
+	.bill-params-time {
+		text-align:center;
+		width:50%;
+	}
+	.bill-params-money {
+		text-align:right;
+		width:30%;
+	}
+	.bill-info-time {
+	}
+	.food-title {
+		border-bottom:2px dashed #ccc;
+		text-align:center;
+		padding-bottom:5px;
+	}
+	.food-list li {
+		list-style:none;
+	}
+	.food-list img {
+		width:25%;
+	}
+	.food-info {
+		display:inline-block;
+		width:70%;
+	}
+	</style>
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+	<h1 class="bill-title">我的订单</h1>
+    {% if show_order != None %}
+    {% for i in show_order %}
+	<div class="bill-item">
+		<div class="bill-item-head">
+			<em class="bill-params-id">#1 </em>
+			<em class="bill-params-time">{{i[0]}} {{i[1]}}</em>
+			<em class="bill-params-money">¥ {{i[-1]}}</em>
+		</div>
+		<div class="bill-item-body">
+			<p class="bill-info-time">订单时间：{{i[0]}} {{i[1]}}</p>
+			<p>菜名：{{i[3]}}</p>
+			<p>人数：{{i[2]}}人</p>
+		</div>
+		<div class="bill-time-foot">
+		</div>
+	</div>
+    {% endfor%}
+    {%else%}
+    <h2>暂无您的订单信息 </h2>
+    {% endif %}
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('.bill-item-head').click(function(){
+			var showDom = $(this).parent('.bill-item').children('.bill-item-body');
+			console.log(showDom)
+			showDom.toggle();
+		});
+	});
+	</script>
+</body>
+</html>
