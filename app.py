@@ -43,7 +43,7 @@ def takeout():
     food = ""       
     for o in order:
         money = int(o[0]) * float(o[2]) + money
-        food = food + o[1] + "|"
+        food = food + o[1] +"*" + str(o[0])+ "|"
     food_msg = (open_id,money,food)
     insert_id = makesql.insert_takeout(food_msg)
     if type(insert_id) == int and insert_id > 0:
@@ -139,7 +139,7 @@ def order_food():
         food = ""       
         for o in order:
             money = int(o[0]) * float(o[2]) + money
-            food = food + o[1] + "|"
+            food = food + o[1] + "*" +  str(o[0]) + "|"
         food_msg = (open_id,money,food)
         insert_id = makesql.insert_food(food_msg)
         if type(insert_id) == int and insert_id > 0:
@@ -490,4 +490,4 @@ def access_token():
 app.secret_key = "\x11\x93}\xdd\xb1\xdd\x19\x88s\xde\x13\n9t\x12\x07\xfe\xf3*\xf7\xe1\x0fVj"
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")#,debug=True)
+    app.run(host="0.0.0.0",debug=True)

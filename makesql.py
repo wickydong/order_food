@@ -107,6 +107,7 @@ def show_order(open_id):
     try:
         make.execute("select date_format(come_date,'%%Y-%%m-%%d'),come_time,come_people,food,money from reservation where open_id=%s and come_time!='NULL' and money!='0'",open_id)
         fetchall = make.fetchall()
+        print fetchall
         return fetchall
     except Exception,e:
         return e
