@@ -81,18 +81,17 @@
 </head>
 <body>
 	<h1 class="bill-title">我的订单</h1>
-    {% if show_order != None %}
+    {% if show_order %}
     {% for i in show_order %}
 	<div class="bill-item">
 		<div class="bill-item-head">
-			<em class="bill-params-id">#1 </em>
-			<em class="bill-params-time">{{i[0]}} {{i[1]}}</em>
+			<em class="bill-params-time">{{i[2]}}</em>
 			<em class="bill-params-money">¥ {{i[-1]}}</em>
 		</div>
 		<div class="bill-item-body">
 			<p class="bill-info-time">订单时间：{{i[0]}} {{i[1]}}</p>
-			<p>菜名：{{i[3]}}</p>
-			<p>人数：{{i[2]}}人</p>
+			<p>菜名：{{i[4]}}</p>
+			<p>人数：{{i[3]}}人</p>
 		</div>
 		<div class="bill-time-foot">
 		</div>

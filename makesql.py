@@ -105,10 +105,14 @@ def show_order(open_id):
     print open_id
     make,con=makesql()
     try:
-        make.execute("select date_format(come_date,'%%Y-%%m-%%d'),come_time,come_people,food,money from reservation where open_id=%s and come_time!='NULL' and money!='0'",open_id)
-        fetchall = make.fetchall()
-        print fetchall
-        return fetchall
+        make.execute("select date_format(come_date,'%%Y-%%m-%%d'),come_time,createtime,come_people,food,money from reservation where open_id=%s and come_time!='NULL' and money!='0'",open_id)
+        fetchall1 = list(make.fetchall())
+        make.execute("select date_format(come_date,'%%Y-%%m-%%d'),come_time,createtime,come_people,food,money from takeout where open_id=%s and come_time!='NULL' and money!='0'",open_id)
+        fetchall2 = make.fetchall()
+        for i in fetchall2:
+            fetchall1.append(i)
+        print fetchall1
+        return fetchall1
     except Exception,e:
         return e
     make.close()

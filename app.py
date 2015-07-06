@@ -77,7 +77,7 @@ def takeout_user():
                     put_msg = {"touser": open_id,
                                "msgtype": "text",
                                "text": {
-                                    "content":"Your reservation is ok,Please wait a moment"
+                                    "content":"Your takeout order success,Please wait a moment."
                                        }
                               }  
                     put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
@@ -92,7 +92,7 @@ def takeout_user():
                     put_msg = {"touser": open_id,
                                "msgtype": "text",
                                "text": {
-                                    "content":"Your reservation is ok,Please wait a moment"
+                                    "content":"Your takeout order success,Please wait a moment."
                                        }
                               }  
                     put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
@@ -207,62 +207,6 @@ def reservation():
     phone = str(select_user[0][2])
     user_name = str(select_user[0][3])
     return render_template("reservation.html",base_64=base_64,phone=phone,user_name=user_name,user_status="is")
-"""
-    if request.method == "POST":
-        open_id = request.form.get("open_id")
-        phone = request.form.get("phone_number",default="")
-        user_name = request.form.get("user_name",default="")
-        come_date = request.form.get("come_date",default="")
-        come_time = request.form.get("come_time",default="")
-        come_people = request.form.get("come_people",default="")
-        other = request.form.get("other")
-        user_status = request.form.get("user_status")
-        vip = "NO"
-        if str(phone).isdigit() == True and len(str(phone)) == 11:
-            seat_message = [open_id,come_date,come_time,int(come_people), other]
-            print seat_message
-            global access_token
-            if user_status == "is":
-                seat_insert = makesql.insert_seat(seat_message)
-                if type(seat_insert) == int and seat_insert > 0:
-                    put_msg = {"touser": open_id,
-                               "msgtype": "text",
-                               "text": {
-                                    "content":"Your reservation is ok,Please wait a moment"
-                                       }
-                              }  
-                    put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
-                    base_msg = open_id + "|" + str(seat_insert)
-                    base_64 =  base64.encodestring(base_msg)
-                    return base_64
-                print seat_insert
-                return "wrong"
-            else:
-                user_message = [open_id,phone,user_name,vip]
-                user_insert = makesql.insert_user(user_message)
-                seat_insert = makesql.insert_seat(seat_message)
-                if seat_insert > 0  and user_insert > 0:
-                    put_msg = {"touser": open_id,
-                               "msgtype": "text",
-                               "text": {
-                                    "content":"Your reservation is ok,Please wait a moment"
-                                       }
-                              }  
-                    put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
-                    base_msg = open_id + "|" + str(seat_insert)
-                    base_64 =  base64.encodestring(base_msg)
-                    return base_64
-                return "wrong"
-"""
-'''
-    open_id = request.args.get("open_id")
-    select_user = makesql.select_user(open_id)
-    if len(select_user) == 0:
-        return render_template("reservation.html",open_id=open_id,user_status="notis")
-    phone = str(select_user[0][2])
-    user_name = str(select_user[0][3])
-    return render_template("reservation.html",open_id=open_id,phone=phone,user_name=user_name,user_status="is")
-'''
 
 @app.route("/reservation_sure/<base_msg>")
 def reservation_sure(base_msg=None):
@@ -280,13 +224,6 @@ def vip():
     phone_type = request.args.get("type")
     open_id = request.args.get("open_id")
     if open_id != None:
-        #put_msg = {"touser": open_id,
-        #           "msgtype": "text",
-        #           "text": {"content":"帐号: WX-yoogane\n密码: wolegeca"
-        #                               }
-        #                      }  
-        #put = requests.post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %access_token,data=json.dumps(put_msg))
-        #return "帐号: WX-yoogane\n密码: wolegeca"
         if phone_type == "ios":
             return render_template("wifi.html")
         return "ok"
