@@ -74,7 +74,9 @@ $("#submit_btn").click(function(){
       "/takeout",
       {'dishes':JSON.stringify(postFood),'open_id':open_id},
       function(data){
-        console.log(data);
+          if (data != "wrong"){
+              window.location.href="/takeout_sure/"+data;
+          }
       }
     );
 });
