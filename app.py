@@ -219,6 +219,17 @@ def reservation_sure(base_msg=None):
     seat_msg = makesql.reservation_show(open_id,seat_id)
     return render_template("reservation_sure.html",base_64=base_msg,seat_msg=seat_msg)
 
+
+@app.route("/takeout_sure/<base_msg>")
+def takeout_sure(base_msg=None):
+    if base_msg == None:
+        return "Your Request Method Is Wrong, Please Go Away."
+    base_64 = base64.decodestring(base_msg).split("|")
+    open_id = base_64[0]
+    seat_id = base_64[1]
+    seat_msg = makesql.takeout_show(open_id,seat_id)
+    print seat_msg
+    return render_template("takeout_sure.html",base_64=base_msg,seat_msg=seat_msg)
 @app.route("/wifi",methods=["GET","POST"])    #会员
 def vip():
     phone_type = request.args.get("type")
@@ -296,6 +307,7 @@ def modify_food():
         food_name = request.form.get("food_name")
         price = request.form.get("price")
         food_msg = (img_url,food_name,price)
+        print food_msg
         choice_food = request.form.get("choice_food")
         if modify_status == "add":
             add_food = makesql.add_food(food_msg)
@@ -319,6 +331,7 @@ def modify_food():
 def review_seat():
     if 'username' in session:
         review_seat = makesql.select_seat()
+        print review_seat
         review_allowseat = makesql.select_allowseat()
         review_list = []
         allow_list = []
@@ -427,4 +440,4 @@ def access_token():
 app.secret_key = "\x11\x93}\xdd\xb1\xdd\x19\x88s\xde\x13\n9t\x12\x07\xfe\xf3*\xf7\xe1\x0fVj"
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",debug=True)
+    app.run(host="0.0.0.0")#,debug=True)

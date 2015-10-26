@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>外卖确认</title>
+        <link rel="stylesheet" type="text/css" href="/static/flat-ui-style/jquery.mobile.flatui.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+        <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="/static/jquery_mobile/jquery.mobile-1.4.5.min.js"></script>
+        <style>
+        .ul-list {
+            border:1px solid #eee;
+            border-radius:5px;
+            margin: 5px auto;
+            padding:0px;
+            width: 90%;
+        }
+        .ul-list li {
+            list-style:none;
+            border-bottom:1px solid #eee;
+            padding:5px 10px;
+            overflow:hidden;
+        }
+        .ul-list li:list-child {
+            border-bottom:none;
+        }
+        .notice-div {
+            margin:5px auto;
+            padding:0px;
+            width:90%;
+            font-size:12px;
+        }
+        </style>
+    </head>
+    <body>
+        <div>
+            <ul class="ul-list">
+                <li>送餐日期&nbsp;&nbsp;{{seat_msg[0][0]}}</li>
+                <li>送餐时间&nbsp;&nbsp;{{seat_msg[0][1]}}</li>
+                <li>菜品&nbsp;&nbsp;{{seat_msg[0][3]}}</li>
+                <li>价格&nbsp;&nbsp;{{seat_msg[0][2]}}</li>
+            </ul>
+            <div class="notice-div">
+                <p>下单成功,外卖小哥准时到达</p>
+                <p>请关闭本页面</p>
+            </div>
+        </div>
+    </body>
+</html>

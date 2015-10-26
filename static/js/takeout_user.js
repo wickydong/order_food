@@ -63,7 +63,7 @@ $("#submit_btn").click(function(){
             postData,
             function(data){
                 if (data != "wrong"){
-                    window.location.href="/takeout_user/"+data;
+                    window.location.href="/takeout_sure/"+data;
                 }
             }
         );

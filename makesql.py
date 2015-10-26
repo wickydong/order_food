@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import MySQLdb
+import sys
 from datetime import date
 date = date.today()
-
+reload(sys)
+sys.setdefaultencoding("utf-8")
 def makesql():  #初始化数据库
     con =MySQLdb.connect(host="localhost",user="root",passwd="root",\
             db="order_food",charset="utf8")
@@ -131,6 +133,18 @@ def reservation_show(open_id,seat_id):  #展示给用户的订座信息
     con.close()
 
 
+def takeout_show(open_id,seat_id):  #展示给用户的订座信息
+    make,con = makesql()
+    try:
+        make.execute("select date_format(come_date,'%%Y-%%m-%%d'),come_time,money,food\
+                other from takeout where open_id='%s' and id='%s'" %(open_id,seat_id))
+        fetchall = make.fetchall()
+        return fetchall
+    except Exception,e:
+        return e
+    make.close()
+    con.close()
+
 def select_allowseat():  #查询已审核订座信息
     make,con = makesql()
     try:
@@ -172,9 +186,9 @@ def add_food(food_msg):  #修改菜品信息（供后台使用）
 
 def modify_food(food_msg):  #修改菜品信息（供后台使用）
     make,con = makesql()
-    img_url = food_msg[0]
-    food_name = food_msg[2]
-    price = food_msg[1]
+    img_url = food_msg[0].decode()
+    food_name = food_msg[2].decode()
+    price = food_msg[1].decode()
     print img_url,food_name,price
     try:
         a = make.execute("update food set img_url='%s',price='%s' where food_name='%s'" %(img_url,price,food_name))
